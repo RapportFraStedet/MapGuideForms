@@ -1,0 +1,33 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "Roles";
+}
+
+<h2>Roles</h2>
+
+<p>
+    @Html.ActionLink("Opret ny", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Role
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Ret", "Edit", new { roleName = item }) |
+            @Html.ActionLink("Slet", "Delete", new { id = item })
+        </td>
+        <td>
+            @item
+        </td>
+    </tr>
+}
+
+</table>
+

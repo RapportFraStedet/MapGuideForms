@@ -1,0 +1,169 @@
+﻿@model RapportFraStedet.Models.DataListModel
+@{
+    RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+    RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+    RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+}
+
+@section menu{
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
+    </ul>
+}
+
+<script type="text/javascript">
+    var eventSelectionOn = null;
+    var eventSelectionOff = null;
+    function updateSelection() {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("Map").getSelection(parent.OpenLayers.Function.bind(renderSelectionLayers, this));
+        }
+        else
+        {
+            getAll();
+        }
+    }
+    function getURL(){
+        var e = $("#View_Group_DefaultFormId")[0];
+        var formId = null;
+        if(e)
+        {
+            formId = e.options[e.selectedIndex].value;
+        }
+        else
+        {
+            formId = @Model.Form.FormId;
+        }
+        return url = "@Url.Content("~/Data.aspx/Items/")"+@Model.View.ViewId+"?formId="+formId;
+    }
+    function getAll(){
+        $.ajax({
+            url: getURL(),
+            success: function (result) {
+                $("#myTable tbody").html(result);
+                $("#myTable").trigger("update");
+            }
+        });
+    }
+    function renderSelectionLayers(oSelection){
+       var mapLayer = null;
+		for (var mapName in oSelection) {
+            mapLayer = oSelection[mapName];
+            break;
+        }
+        if(mapLayer.nLayers > 0)
+        {
+            $.ajax({
+                url: getURL(),
+                data: mapLayer.aLayers.toJSON(),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#myTable tbody").html(result);
+                    $("#myTable").trigger("update");
+                }
+            });
+        }
+        else
+        {
+            getAll();
+        }
+    }
+    
+    function clearSelection() {
+        getAll();
+    }
+
+    $(document).ready(function () {
+        $("#myTable").tablesorter();
+        //$("#myTable").trigger("update");
+        if (parent.Fusion) {
+            eventSelectionOn = parent.OpenLayers.Function.bind(updateSelection, parent.Fusion.getWidgetById("Map"));
+            eventSelectionOff = parent.OpenLayers.Function.bind(clearSelection, parent.Fusion.getWidgetById("Map"));
+            parent.Fusion.getWidgetById("Map").registerForEvent(parent.Fusion.Event.MAP_SELECTION_ON, eventSelectionOn);
+            parent.Fusion.getWidgetById("Map").registerForEvent(parent.Fusion.Event.MAP_SELECTION_OFF, eventSelectionOff);
+            parent.Fusion.getWidgetById("RapportFraStedet").removeTools();
+            parent.Fusion.getWidgetById("RapportFraStedet").clearMarker();
+            parent.Fusion.getWidgetById("RapportFraStedet").removeAllFeatures();
+            parent.Fusion.getWidgetById("Map").clearSelection();
+            parent.Fusion.getWidgetById("Map").redraw();
+            //updateSelection();
+        }
+        $("#View_Group_DefaultFormId").change(function () {
+            updateSelection();
+        });
+        
+    });
+    $(window).unload(function () {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("Map").deregisterForEvent(parent.Fusion.Event.MAP_SELECTION_ON, eventSelectionOn);
+            parent.Fusion.getWidgetById("Map").deregisterForEvent(parent.Fusion.Event.MAP_SELECTION_OFF, eventSelectionOff);
+        }
+    }); 
+</script>
+@if (Model.View.ViewTypeId == 5)
+{
+<h2>Alle</h2>
+}
+else
+{
+     <h2>Mine</h2>
+}
+@if (Model.View.Group.Forms.Count > 1)
+{
+    ViewBag.Title = Model.View.Group.Name;
+    <div class="editor-label">
+        Vælg indberetning:
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.View.Group.DefaultFormId, new SelectList(Model.View.Group.Forms, "FormId", "Name"))
+        @Html.ValidationMessageFor(model => model.View.Group.DefaultFormId)
+    </div>
+}
+else
+{
+    ViewBag.Title = Model.Form.Name;
+}
+@if (create != null)
+{
+<p>
+    @Html.ActionLink("Create New", "Index", new { id = create.ViewId, formId = Model.Form.FormId })
+</p>
+}
+<table id="myTable" class="tablesorter">
+<thead>
+    <tr>
+        <th>
+        </th>
+        @foreach (var column in Model.Columns)
+        {
+
+            <th>
+                @column.Name
+            </th>
+        }
+        <th>
+            Dato
+        </th>
+    </tr>
+</thead>
+<tbody>
+    @Html.Partial("System_Items", Model)
+</tbody>
+</table>
+
+@Html.Hidden("FormId", Model.Form.FormId)
+@Html.Hidden("ViewId", Model.View.ViewId)

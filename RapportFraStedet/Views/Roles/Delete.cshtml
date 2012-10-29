@@ -1,0 +1,21 @@
+﻿@model RapportFraStedet.Models.RoleModel
+
+@{
+    ViewBag.Title = "Slet";
+}
+
+<h2>Slet</h2>
+<h3>er du sikker på at du vil slette denne?</h3>
+<fieldset>
+    <legend>Role</legend>
+    <div class="display-field">@Model.RoleName</div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Slet" /> |
+        @Html.ActionLink("Tilbage", "Index")
+    </p>
+}
+
+

@@ -1,0 +1,63 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@{
+    ViewBag.Title = Model.Form.Name;
+    RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+    RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+    RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+}
+
+@section menu{
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
+    </ul>
+}
+
+<h2>
+    Ret</h2>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("RapportFraStedet").setTools();
+            parent.Fusion.getWidgetById("RapportFraStedet").clearMarker();
+			parent.Fusion.getWidgetById("RapportFraStedet").createGeometry();
+        }
+        $(".datepick").each(function () {
+            $(this).datepicker($.datepicker.regional['da']);
+        });
+    });
+</script>
+@using (Html.BeginForm("Edit", "Data", new { id = Model.View.ViewId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div id="Fields">
+        @Html.Partial("System_Fields", Model)
+    </div>
+} 
+<p>
+    @{
+        RapportFraStedet.Models.View list = null;
+        try
+        {
+            list = Model.View.Group.Views.Single(m => m.ViewTypeId == 5);
+        }
+        catch { }
+        if (list != null)
+        {
+        @Html.ActionLink("Tilbage", "Index", new { id = list.ViewId, formId = Model.Form.FormId })
+        }
+    }
+</p>

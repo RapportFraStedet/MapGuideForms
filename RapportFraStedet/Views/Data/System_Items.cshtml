@@ -1,0 +1,89 @@
+﻿@model RapportFraStedet.Models.DataListModel
+@{
+    RapportFraStedet.Models.View edit = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 2);
+    RapportFraStedet.Models.View delete = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 3);
+    RapportFraStedet.Models.View details = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 4);
+    bool authenticated = User.Identity.IsAuthenticated;
+    bool editor = (User.IsInRole("Administrator") || User.IsInRole("Editor"));
+}
+@foreach (var listItem in Model.ListItemModels)
+{
+    bool showEdit = false;
+    bool showDetails = false;
+    <tr>
+        <td>
+            @if (edit != null)
+            {
+                if (authenticated)
+                {
+                    if (User.Identity.Name == listItem.UserName || editor)
+                    {
+                        showEdit = true;
+                @Html.ActionLink("Ret", "Index", new { itemId = listItem.ItemId, id = edit.ViewId, formId = Model.Form.FormId })          
+                    }
+                }
+            }
+            @if (details != null)
+            {
+                if (showEdit)
+                {
+                @Html.Encode(" | ")
+                }
+                showDetails = true;
+                @Html.ActionLink("Se", "Index", new { itemId = listItem.ItemId, id = details.ViewId, formId = Model.Form.FormId })
+                
+            }
+            @if (delete != null)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (User.Identity.Name == listItem.UserName || editor)
+                    {
+                        if (showEdit || showDetails)
+                        {
+                            @Html.Encode(" | ")
+                        }
+                        @Html.ActionLink("Slet", "Index", new { itemId = listItem.ItemId, id = delete.ViewId, formId = Model.Form.FormId })
+                    }
+                }
+            }
+        </td>
+        @foreach (var column in Model.Columns)
+        {
+            <td>
+                @if (listItem.Data.ContainsKey(column.FieldColumn))
+                {
+                    if (column.FieldTypeId == 8)
+                    {
+                        string data = listItem.Data[column.FieldColumn];
+                        if (!String.IsNullOrEmpty(data))
+                        {
+                            string ext = Path.GetExtension(data);
+                            if (ext.ToLower() == ".mp4")
+                            {
+                                string video = Model.Form.UploadVirtualPath + "/" + data;
+                                <video id="@listItem.ItemId" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100" data-setup="{}">
+		                            <source src="@video" type='video/mp4'>
+	                            </video>
+                            }
+                            else
+                            {
+                                string img = Model.Form.UploadVirtualPath + "/Thumb_" + data;
+                                string a = Model.Form.UploadVirtualPath + "/" + data; 
+                                <a href="@a" target="_blank"><img src="@img" /></a>
+                            }
+                        }
+                    }
+                    else
+                    {
+                    @listItem.Data[column.FieldColumn]
+                    }
+                }
+            </td>
+        }
+        <td>
+            @String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:d}", listItem.Date)
+        </td>
+    </tr>
+
+}

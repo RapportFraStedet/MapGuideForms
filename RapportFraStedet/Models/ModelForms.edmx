@@ -1,0 +1,733 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DatabaseFormsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="DatabaseFormsModelStoreContainer">
+          <EntitySet Name="Company" EntityType="DatabaseFormsModel.Store.Company" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Field" EntityType="DatabaseFormsModel.Store.Field" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FieldType" EntityType="DatabaseFormsModel.Store.FieldType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Form" EntityType="DatabaseFormsModel.Store.Form" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FormGroup" EntityType="DatabaseFormsModel.Store.FormGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Group" EntityType="DatabaseFormsModel.Store.Group" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Permission" EntityType="DatabaseFormsModel.Store.Permission" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PermissionType" EntityType="DatabaseFormsModel.Store.PermissionType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Selection" EntityType="DatabaseFormsModel.Store.Selection" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="View" EntityType="DatabaseFormsModel.Store.View" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ViewType" EntityType="DatabaseFormsModel.Store.ViewType" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="Field_FieldType_Field" Association="DatabaseFormsModel.Store.Field_FieldType_Field">
+            <End Role="FieldType" EntitySet="FieldType" />
+            <End Role="Field" EntitySet="Field" />
+          </AssociationSet>
+          <AssociationSet Name="Field_Form_Field" Association="DatabaseFormsModel.Store.Field_Form_Field">
+            <End Role="Form" EntitySet="Form" />
+            <End Role="Field" EntitySet="Field" />
+          </AssociationSet>
+          <AssociationSet Name="FormGroup_Form_FormGroup" Association="DatabaseFormsModel.Store.FormGroup_Form_FormGroup">
+            <End Role="Form" EntitySet="Form" />
+            <End Role="FormGroup" EntitySet="FormGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FormGroup_Group_FormGroup" Association="DatabaseFormsModel.Store.FormGroup_Group_FormGroup">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="FormGroup" EntitySet="FormGroup" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_Field_Permission" Association="DatabaseFormsModel.Store.Permission_Field_Permission">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_Permission_PermissionType" Association="DatabaseFormsModel.Store.Permission_Permission_PermissionType">
+            <End Role="PermissionType" EntitySet="PermissionType" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_View_Permission" Association="DatabaseFormsModel.Store.Permission_View_Permission">
+            <End Role="View" EntitySet="View" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="Selection_Field_Selection" Association="DatabaseFormsModel.Store.Selection_Field_Selection">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="Selection" EntitySet="Selection" />
+          </AssociationSet>
+          <AssociationSet Name="View_Group_View" Association="DatabaseFormsModel.Store.View_Group_View">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="View" EntitySet="View" />
+          </AssociationSet>
+          <AssociationSet Name="View_ViewType_View" Association="DatabaseFormsModel.Store.View_ViewType_View">
+            <End Role="ViewType" EntitySet="ViewType" />
+            <End Role="View" EntitySet="View" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="FormId" Type="int" Nullable="false" />
+          <Property Name="FieldTypeId" Type="int" Nullable="false" />
+          <Property Name="FieldOrder" Type="int" Nullable="false" />
+          <Property Name="Required" Type="bit" Nullable="false" />
+          <Property Name="FieldColumn" Type="nvarchar" MaxLength="100" />
+          <Property Name="Data" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FieldType">
+          <Key>
+            <PropertyRef Name="FieldTypeId" />
+          </Key>
+          <Property Name="FieldTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="FormId" />
+          </Key>
+          <Property Name="FormId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResourceName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UploadPhysicalPath" Type="nvarchar" MaxLength="500" />
+          <Property Name="UploadVirtualPath" Type="nvarchar" MaxLength="500" />
+          <Property Name="ViewEmailToSenderOnCreate" Type="nvarchar" MaxLength="100" />
+          <Property Name="ViewEmailToReceiverOnCreate" Type="nvarchar" MaxLength="100" />
+          <Property Name="ViewEmailToSenderOnEdit" Type="nvarchar" MaxLength="100" />
+          <Property Name="ViewEmailToReceiverOnEdit" Type="nvarchar" MaxLength="100" />
+          <Property Name="ViewEmailToSenderOnDelete" Type="nvarchar" MaxLength="100" />
+          <Property Name="ViewEmailToReceiverOnDelete" Type="nvarchar" MaxLength="100" />
+          <Property Name="SRS" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FormGroup">
+          <Key>
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="FormId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="FormId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="DefaultFormId" Type="int" />
+          <Property Name="Role" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FieldId" Type="int" Nullable="false" />
+          <Property Name="ViewId" Type="int" Nullable="false" />
+          <Property Name="PermissionTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionType">
+          <Key>
+            <PropertyRef Name="PermissionTypeId" />
+          </Key>
+          <Property Name="PermissionTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="SelectionId" />
+          </Key>
+          <Property Name="SelectionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="FieldId" Type="int" Nullable="false" />
+          <Property Name="SelectionOrder" Type="int" />
+        </EntityType>
+        <EntityType Name="View">
+          <Key>
+            <PropertyRef Name="ViewId" />
+          </Key>
+          <Property Name="ViewId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="ViewTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewType">
+          <Key>
+            <PropertyRef Name="ViewTypeId" />
+          </Key>
+          <Property Name="ViewTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="Field_FieldType_Field">
+          <End Role="FieldType" Type="DatabaseFormsModel.Store.FieldType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Field" Type="DatabaseFormsModel.Store.Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldType">
+              <PropertyRef Name="FieldTypeId" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="FieldTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Field_Form_Field">
+          <End Role="Form" Type="DatabaseFormsModel.Store.Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Field" Type="DatabaseFormsModel.Store.Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="FormId" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FormGroup_Form_FormGroup">
+          <End Role="Form" Type="DatabaseFormsModel.Store.Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FormGroup" Type="DatabaseFormsModel.Store.FormGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="FormId" />
+            </Principal>
+            <Dependent Role="FormGroup">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FormGroup_Group_FormGroup">
+          <End Role="Group" Type="DatabaseFormsModel.Store.Group" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FormGroup" Type="DatabaseFormsModel.Store.FormGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="FormGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_Field_Permission">
+          <End Role="Field" Type="DatabaseFormsModel.Store.Field" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Store.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_Permission_PermissionType">
+          <End Role="PermissionType" Type="DatabaseFormsModel.Store.PermissionType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Store.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionType">
+              <PropertyRef Name="PermissionTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="PermissionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_View_Permission">
+          <End Role="View" Type="DatabaseFormsModel.Store.View" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Store.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="View">
+              <PropertyRef Name="ViewId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ViewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Selection_Field_Selection">
+          <End Role="Field" Type="DatabaseFormsModel.Store.Field" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Selection" Type="DatabaseFormsModel.Store.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="View_Group_View">
+          <End Role="Group" Type="DatabaseFormsModel.Store.Group" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="View" Type="DatabaseFormsModel.Store.View" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="View">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="View_ViewType_View">
+          <End Role="ViewType" Type="DatabaseFormsModel.Store.ViewType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="View" Type="DatabaseFormsModel.Store.View" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ViewType">
+              <PropertyRef Name="ViewTypeId" />
+            </Principal>
+            <Dependent Role="View">
+              <PropertyRef Name="ViewTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseFormsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="DatabaseFormsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="DatabaseFormsModel.Company" />
+          <EntitySet Name="Fields" EntityType="DatabaseFormsModel.Field" />
+          <EntitySet Name="FieldTypes" EntityType="DatabaseFormsModel.FieldType" />
+          <EntitySet Name="Forms" EntityType="DatabaseFormsModel.Form" />
+          <EntitySet Name="Groups" EntityType="DatabaseFormsModel.Group" />
+          <EntitySet Name="Permissions" EntityType="DatabaseFormsModel.Permission" />
+          <EntitySet Name="PermissionTypes" EntityType="DatabaseFormsModel.PermissionType" />
+          <EntitySet Name="Selections" EntityType="DatabaseFormsModel.Selection" />
+          <EntitySet Name="Views" EntityType="DatabaseFormsModel.View" />
+          <EntitySet Name="ViewTypes" EntityType="DatabaseFormsModel.ViewType" />
+          <AssociationSet Name="Field_FieldType_Field" Association="DatabaseFormsModel.Field_FieldType_Field">
+            <End Role="FieldType" EntitySet="FieldTypes" />
+            <End Role="Field" EntitySet="Fields" />
+          </AssociationSet>
+          <AssociationSet Name="Field_Form_Field" Association="DatabaseFormsModel.Field_Form_Field">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="Field" EntitySet="Fields" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_Field_Permission" Association="DatabaseFormsModel.Permission_Field_Permission">
+            <End Role="Field" EntitySet="Fields" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="Selection_Field_Selection" Association="DatabaseFormsModel.Selection_Field_Selection">
+            <End Role="Field" EntitySet="Fields" />
+            <End Role="Selection" EntitySet="Selections" />
+          </AssociationSet>
+          <AssociationSet Name="View_Group_View" Association="DatabaseFormsModel.View_Group_View">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="View" EntitySet="Views" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_Permission_PermissionType" Association="DatabaseFormsModel.Permission_Permission_PermissionType">
+            <End Role="PermissionType" EntitySet="PermissionTypes" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="Permission_View_Permission" Association="DatabaseFormsModel.Permission_View_Permission">
+            <End Role="View" EntitySet="Views" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="View_ViewType_View" Association="DatabaseFormsModel.View_ViewType_View">
+            <End Role="ViewType" EntitySet="ViewTypes" />
+            <End Role="View" EntitySet="Views" />
+          </AssociationSet>
+          <AssociationSet Name="FormGroup" Association="DatabaseFormsModel.FormGroup">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="FieldId" />
+          </Key>
+          <Property Name="FieldId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="FormId" Type="Int32" Nullable="false" />
+          <Property Name="FieldTypeId" Type="Int32" Nullable="false" />
+          <Property Name="FieldOrder" Type="Int32" Nullable="false" />
+          <Property Name="Required" Type="Boolean" Nullable="false" />
+          <Property Name="FieldColumn" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Data" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="FieldType" Relationship="DatabaseFormsModel.Field_FieldType_Field" FromRole="Field" ToRole="FieldType" />
+          <NavigationProperty Name="Form" Relationship="DatabaseFormsModel.Field_Form_Field" FromRole="Field" ToRole="Form" />
+          <NavigationProperty Name="Permissions" Relationship="DatabaseFormsModel.Permission_Field_Permission" FromRole="Field" ToRole="Permission" />
+          <NavigationProperty Name="Selections" Relationship="DatabaseFormsModel.Selection_Field_Selection" FromRole="Field" ToRole="Selection" />
+        </EntityType>
+        <EntityType Name="FieldType">
+          <Key>
+            <PropertyRef Name="FieldTypeId" />
+          </Key>
+          <Property Name="FieldTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Fields" Relationship="DatabaseFormsModel.Field_FieldType_Field" FromRole="FieldType" ToRole="Field" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="FormId" />
+          </Key>
+          <Property Name="FormId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ResourceName" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ClassName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="UploadPhysicalPath" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="UploadVirtualPath" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToSenderOnCreate" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToReceiverOnCreate" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToSenderOnEdit" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToReceiverOnEdit" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToSenderOnDelete" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ViewEmailToReceiverOnDelete" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="SRS" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Fields" Relationship="DatabaseFormsModel.Field_Form_Field" FromRole="Form" ToRole="Field" />
+          <NavigationProperty Name="Groups" Relationship="DatabaseFormsModel.FormGroup" FromRole="Form" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="DefaultFormId" Type="Int32" />
+          <Property Name="Role" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Views" Relationship="DatabaseFormsModel.View_Group_View" FromRole="Group" ToRole="View" />
+          <NavigationProperty Name="Forms" Relationship="DatabaseFormsModel.FormGroup" FromRole="Group" ToRole="Form" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FieldId" Type="Int32" Nullable="false" />
+          <Property Name="ViewId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Field" Relationship="DatabaseFormsModel.Permission_Field_Permission" FromRole="Permission" ToRole="Field" />
+          <NavigationProperty Name="PermissionType" Relationship="DatabaseFormsModel.Permission_Permission_PermissionType" FromRole="Permission" ToRole="PermissionType" />
+          <NavigationProperty Name="View" Relationship="DatabaseFormsModel.Permission_View_Permission" FromRole="Permission" ToRole="View" />
+        </EntityType>
+        <EntityType Name="PermissionType">
+          <Key>
+            <PropertyRef Name="PermissionTypeId" />
+          </Key>
+          <Property Name="PermissionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Permissions" Relationship="DatabaseFormsModel.Permission_Permission_PermissionType" FromRole="PermissionType" ToRole="Permission" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="SelectionId" />
+          </Key>
+          <Property Name="SelectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="FieldId" Type="Int32" Nullable="false" />
+          <Property Name="SelectionOrder" Type="Int32" />
+          <NavigationProperty Name="Field" Relationship="DatabaseFormsModel.Selection_Field_Selection" FromRole="Selection" ToRole="Field" />
+        </EntityType>
+        <EntityType Name="View">
+          <Key>
+            <PropertyRef Name="ViewId" />
+          </Key>
+          <Property Name="ViewId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="ViewTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="DatabaseFormsModel.View_Group_View" FromRole="View" ToRole="Group" />
+          <NavigationProperty Name="Permissions" Relationship="DatabaseFormsModel.Permission_View_Permission" FromRole="View" ToRole="Permission" />
+          <NavigationProperty Name="ViewType" Relationship="DatabaseFormsModel.View_ViewType_View" FromRole="View" ToRole="ViewType" />
+        </EntityType>
+        <EntityType Name="ViewType">
+          <Key>
+            <PropertyRef Name="ViewTypeId" />
+          </Key>
+          <Property Name="ViewTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Views" Relationship="DatabaseFormsModel.View_ViewType_View" FromRole="ViewType" ToRole="View" />
+        </EntityType>
+        <Association Name="Field_FieldType_Field">
+          <End Role="FieldType" Type="DatabaseFormsModel.FieldType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Field" Type="DatabaseFormsModel.Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldType">
+              <PropertyRef Name="FieldTypeId" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="FieldTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Field_Form_Field">
+          <End Role="Form" Type="DatabaseFormsModel.Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Field" Type="DatabaseFormsModel.Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="FormId" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_Field_Permission">
+          <End Role="Field" Type="DatabaseFormsModel.Field" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Selection_Field_Selection">
+          <End Role="Field" Type="DatabaseFormsModel.Field" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Selection" Type="DatabaseFormsModel.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="View_Group_View">
+          <End Role="Group" Type="DatabaseFormsModel.Group" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="View" Type="DatabaseFormsModel.View" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="View">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_Permission_PermissionType">
+          <End Role="PermissionType" Type="DatabaseFormsModel.PermissionType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionType">
+              <PropertyRef Name="PermissionTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="PermissionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Permission_View_Permission">
+          <End Role="View" Type="DatabaseFormsModel.View" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Permission" Type="DatabaseFormsModel.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="View">
+              <PropertyRef Name="ViewId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ViewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="View_ViewType_View">
+          <End Role="ViewType" Type="DatabaseFormsModel.ViewType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="View" Type="DatabaseFormsModel.View" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ViewType">
+              <PropertyRef Name="ViewTypeId" />
+            </Principal>
+            <Dependent Role="View">
+              <PropertyRef Name="ViewTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FormGroup">
+          <End Role="Form" Type="DatabaseFormsModel.Form" Multiplicity="*" />
+          <End Role="Group" Type="DatabaseFormsModel.Group" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseFormsModelStoreContainer" CdmEntityContainer="DatabaseFormsEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fields">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Field">
+              <MappingFragment StoreEntitySet="Field">
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="FieldTypeId" ColumnName="FieldTypeId" />
+                <ScalarProperty Name="FieldOrder" ColumnName="FieldOrder" />
+                <ScalarProperty Name="Required" ColumnName="Required" />
+                <ScalarProperty Name="FieldColumn" ColumnName="FieldColumn" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FieldTypes">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.FieldType">
+              <MappingFragment StoreEntitySet="FieldType">
+                <ScalarProperty Name="FieldTypeId" ColumnName="FieldTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forms">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Form">
+              <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ResourceName" ColumnName="ResourceName" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="UploadPhysicalPath" ColumnName="UploadPhysicalPath" />
+                <ScalarProperty Name="UploadVirtualPath" ColumnName="UploadVirtualPath" />
+                <ScalarProperty Name="ViewEmailToSenderOnCreate" ColumnName="ViewEmailToSenderOnCreate" />
+                <ScalarProperty Name="ViewEmailToReceiverOnCreate" ColumnName="ViewEmailToReceiverOnCreate" />
+                <ScalarProperty Name="ViewEmailToSenderOnEdit" ColumnName="ViewEmailToSenderOnEdit" />
+                <ScalarProperty Name="ViewEmailToReceiverOnEdit" ColumnName="ViewEmailToReceiverOnEdit" />
+                <ScalarProperty Name="ViewEmailToSenderOnDelete" ColumnName="ViewEmailToSenderOnDelete" />
+                <ScalarProperty Name="ViewEmailToReceiverOnDelete" ColumnName="ViewEmailToReceiverOnDelete" />
+                <ScalarProperty Name="SRS" ColumnName="SRS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultFormId" ColumnName="DefaultFormId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="ViewId" ColumnName="ViewId" />
+                <ScalarProperty Name="PermissionTypeId" ColumnName="PermissionTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionTypes">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.PermissionType">
+              <MappingFragment StoreEntitySet="PermissionType">
+                <ScalarProperty Name="PermissionTypeId" ColumnName="PermissionTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Selections">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.Selection">
+              <MappingFragment StoreEntitySet="Selection">
+                <ScalarProperty Name="SelectionId" ColumnName="SelectionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="SelectionOrder" ColumnName="SelectionOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Views">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.View">
+              <MappingFragment StoreEntitySet="View">
+                <ScalarProperty Name="ViewId" ColumnName="ViewId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ViewTypeId" ColumnName="ViewTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewTypes">
+            <EntityTypeMapping TypeName="DatabaseFormsModel.ViewType">
+              <MappingFragment StoreEntitySet="ViewType">
+                <ScalarProperty Name="ViewTypeId" ColumnName="ViewTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FormGroup" TypeName="DatabaseFormsModel.FormGroup" StoreEntitySet="FormGroup">
+            <EndProperty Name="Form">
+              <ScalarProperty Name="FormId" ColumnName="FormId" />
+            </EndProperty>
+            <EndProperty Name="Group">
+              <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

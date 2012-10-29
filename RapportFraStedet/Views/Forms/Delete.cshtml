@@ -1,0 +1,68 @@
+﻿@model RapportFraStedet.Models.Form
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Form</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">@Model.Email</div>
+    
+    <div class="display-label">SRS</div>
+    <div class="display-field">@Model.SRS</div>
+
+    <div class="display-label">ResourceName</div>
+    <div class="display-field">@Model.ResourceName</div>
+
+    <div class="display-label">ClassName</div>
+    <div class="display-field">@Model.ClassName</div>
+
+    <div class="display-label">Upload Physical Path</div>
+    <div class="display-field">@Model.UploadPhysicalPath</div>
+
+    <div class="display-label">Upload Virtual Path</div>
+    <div class="display-field">@Model.UploadVirtualPath</div>
+                <h3>Email Views</h3>
+        <table>
+        <thead>
+        <tr>
+        <th></th>
+        <th>Receiver</th>
+        <th>Sender</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>On Create</td>
+        <td>@Model.ViewEmailToReceiverOnCreate</td>
+        <td>@Model.ViewEmailToSenderOnCreate</td>
+        </tr>
+        <tr>
+        <td>On Edit</td>
+        <td>@Model.ViewEmailToReceiverOnEdit</td>
+        <td>@Model.ViewEmailToSenderOnEdit</td>
+        </tr>
+        <tr>
+        <td>On Delete</td>
+        <td>@Model.ViewEmailToReceiverOnDelete</td>
+        <td>@Model.ViewEmailToSenderOnDelete</td>
+        </tr>
+        </tbody>
+        </table>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

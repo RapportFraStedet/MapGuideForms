@@ -1,0 +1,16 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2>
+    Der er sket en fejl i systemet
+</h2>
+<p>Prøv venligst igen eller kontakt os.</p>
+@if (Model != null)
+{
+<p>
+@Model.Exception.Message</p>
+}
+

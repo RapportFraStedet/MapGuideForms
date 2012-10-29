@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RapportFraStedet.Models.Selection>
+
+@{
+    ViewBag.Title = "Selections";
+}
+
+<h2>@ViewBag.Field.Name</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.Field.FieldId })
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            SelectionOrder
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SelectionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SelectionId })
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.Email
+        </td>
+        <td>
+            @item.SelectionOrder
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Forms ", "Index", "Forms")
+    @Html.Encode(" ")>@Html.Encode(" ")
+    @{
+        string name = String.Format("[{0}] Fields ", ViewBag.Field.Form.Name);
+        }
+    @Html.ActionLink(name, "Index", "Fields", new { id = ViewBag.Field.Form.FormId }, null)
+
+</div>

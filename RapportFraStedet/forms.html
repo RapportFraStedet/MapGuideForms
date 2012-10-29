@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <title>Forms</title>
+    <link rel="stylesheet" href="./content/jquery.mobile-1.2.0-alpha.1.min.css" />
+    <script type="text/javascript" src="./scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="./scripts/init.js"></script>
+    <script type="text/javascript" src="./scripts/jquery.mobile-1.2.0-alpha.1.min.js"></script>
+    <script type="text/javascript" src="./scripts/jquery.validate.min.js"></script>
+
+    <style type="text/css">
+        label.error
+        {
+            /*color: #e80c4d*/
+            color: #f1433f;
+        }
+        em
+        {
+            font-weight: bold;
+            padding-right: 0.5em;
+            vertical-align: top;
+            color: #387bbe;
+        }
+    </style>
+    <script type="text/javascript">
+        var lastPage = "";
+        var username = "";
+        var password = "";
+        var roles = new Array();
+        url = "http://rtv04/RapportFraStedet/api/";
+        //var url = "http://code.addin.dk/RapportFraStedet/api/";
+        function formsModel(urlObj, options) {
+            $.mobile.showPageLoadingMsg("a", "Henter forms...", false);
+            $.ajax({
+                url: url + "forms",
+                dataType: 'jsonp',
+                data: { username: username, password: password },
+                success: function (data, textStatus, jqXHR) {
+                    if (data.IsAuthenticated) {
+                        var markup = "";
+                        for (var i = 0; i < data.Forms.length; i++) {
+                            var form = data.Forms[i];
+                            markup += "<li><a href='#FormModel?id=" + form.Id + "'>";
+                            markup += "<h1>" + form.Name + "</h1>";
+                            markup += "</a></li>";
+                        }
+                        var page = $("#FormsModel");
+                        page.page();
+                        var content = page.children(":jqmData(role=content)");
+                        content.find("ul").html(markup);
+                        content.find(":jqmData(role=listview)").listview("refresh");
+                        $.mobile.changePage(page, options);
+                    }
+                    else {
+                        lastPage = urlObj.hash;
+                        $.mobile.changePage("#Login");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $.mobile.changePage("#Error");
+                },
+                complete: function () {
+                    $.mobile.hidePageLoadingMsg();
+                }
+            });
+        }
+        function fieldsModel(urlObj,options) {
+            var formId = urlObj.hash.replace(/.*formId=/, "");
+            if (formId == "#FieldsModel") {
+                $.mobile.changePage($(formId), options);
+            }
+            else {
+                $.mobile.showPageLoadingMsg("a", "Henter fields...", false);
+                $.ajax({
+                    url: url + "fields",
+                    data: { formId: formId, username: username, password: password },
+                    dataType: 'jsonp',
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.IsAuthenticated) {
+                            var markup = "";
+                            for (var i = 0; i < data.Fields.length; i++) {
+                                var field = data.Fields[i];
+                                markup += "<li><a href='#FieldModel?fieldId=" + field.FieldId + "'>";
+                                markup += "<h1>" + field.Name + "</h1>";
+                                markup += "</a></li>";
+                            }
+                            var page = $("#FieldsModel");
+                            page.page();
+                            var content = page.children(":jqmData(role=content)");
+                            content.find("ul").html(markup);
+                            content.find(":jqmData(role=listview)").listview("refresh");
+                            var footer = page.children(":jqmData(role=footer)");
+                            markup = "<div data-role='navbar'><ul><li><a href='#FormModel'>Form</a></li>";
+                            markup += "<li><a href='#AddField?formId=" + formId + "'>Opret</a></li></ul></div>";
+                            var myNavbar = $(markup);
+                            footer.html(myNavbar).trigger("create");
+                            //page.trigger("create");
+                            $.mobile.changePage(page, options);
+                        }
+                        else {
+                            lastPage = urlObj.hash;
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#Error");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+            }
+        }
+        function formModel(urlObj, options) {
+            var id = urlObj.hash.replace(/.*id=/, "");
+            if (id == "#FormModel") {
+                $.mobile.changePage($(id), options);
+            }
+            else {
+                $.mobile.showPageLoadingMsg("a", "Henter form...", false);
+                $.ajax({
+                    url: url + "forms",
+                    data: { id: id, username: username, password: password },
+                    dataType: 'jsonp',
+                    /*beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", getAuthCookie());
+                    },*/
+                    success: function (data) {
+                        if (data.IsAuthenticated) {
+                            var page = $("#FormModel");
+                            page.page();
+                            var footer = page.children(":jqmData(role=footer)");
+                            var markup = "<div data-role='navbar'><ul><li><a href='#FormsModel'>Forms</a></li>";
+                            markup += "<li><a href='#FieldsModel?formId=" + id + "'>Fields</a></li></ul></div>";
+                            var myNavbar = $(markup);
+                            footer.html(myNavbar).trigger("create");
+                            var header = page.children(":jqmData(role=header)");
+                            header.find("h1").html(data.Name);
+                            markup = "<fieldset>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='name'>Name</label>";
+                            markup += "<input type='text' id='name' name='name' value='" + data.Name + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='email'>Email</label>";
+                            markup += "<input type='email' id='email' name='email' value='" + data.Email + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='mapAgent'>MapAgent</label>";
+                            markup += "<input type='text' id='mapAgent' name='mapAgent' value='" + data.MapAgent + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='applicationDefinition'>ApplicationDefinition</label>";
+                            markup += "<input type='text' id='applicationDefinition' name='applicationDefinition' value='" + data.ApplicationDefinition + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='srs'>SRS</label>";
+                            markup += "<input type='text' id='srs' name='srs' value='" + data.SRS + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='resourceName'>ResourceName</label>";
+                            markup += "<input type='text' id='resourceName' name='resourceName' value='" + data.ResourceName + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='className'>ClassName</label>";
+                            markup += "<input type='text' id='className' name='className' value='" + data.ClassName + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='uploadPhysicalPath'>UploadPhysicalPath</label>";
+                            markup += "<input type='text' id='uploadPhysicalPath' name='uploadPhysicalPath' value='" + data.UploadPhysicalPath + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='uploadVirtualPath'>UploadVirtualPath</label>";
+                            markup += "<input type='text' id='uploadVirtualPath' name='uploadVirtualPath' value='" + data.UploadVirtualPath + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='ReceiverOnCreate' class='select'>ReceiverOnCreate</label>";
+                            markup += "<select id='ReceiverOnCreate' name='ReceiverOnCreate' value='" + data.ReceiverOnCreate + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.ReceiverOnCreate) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='ReceiverOnEdit' class='select'>ReceiverOnEdit</label>";
+                            markup += "<select id='ReceiverOnEdit' name='ReceiverOnEdit' value='" + data.ReceiverOnEdit + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.ReceiverOnEdit) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='ReceiverOnDelete' class='select'>ReceiverOnDelete</label>";
+                            markup += "<select id='ReceiverOnDelete' name='ReceiverOnDelete' value='" + data.ReceiverOnDelete + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.ReceiverOnDelete) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='SenderOnCreate' class='select'>SenderOnCreate</label>";
+                            markup += "<select id='SenderOnCreate' name='SenderOnCreate' value='" + data.SenderOnCreate + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.SenderOnCreate) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='SenderOnEdit' class='select'>SenderOnEdit</label>";
+                            markup += "<select id='SenderOnEdit' name='SenderOnEdit' value='" + data.SenderOnEdit + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.SenderOnEdit) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='SenderOnDelete' class='select'>SenderOnDelete</label>";
+                            markup += "<select id='SenderOnDelete' name='SenderOnDelete' value='" + data.SenderOnDelete + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection + "'";
+                                if (selection == data.SenderOnDelete) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "</fieldset>";
+                            var content = page.children(":jqmData(role=content)");
+                            content.html(markup);
+                            //page.page();
+                            page.trigger("create");
+                            $.mobile.changePage(page, options);
+                        }
+                        else {
+                            lastPage = urlObj.hash;
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#Error");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+            }
+        }
+        
+        function fieldModel(urlObj, options) {
+            var fieldId = urlObj.hash.replace(/.*fieldId=/, "");
+            if (fieldId == "#FieldModel") {
+                $.mobile.changePage($(fieldId), options);
+            }
+            else {
+                $.mobile.showPageLoadingMsg("a", "Henter field...", false);
+                $.ajax({
+                    url: url + "field",
+                    data: { fieldId: fieldId, username: username, password: password },
+                    dataType: 'jsonp',
+                    success: function (data) {
+                        if (data.IsAuthenticated) {
+                            var page = $("#FieldModel");
+                            page.page();
+                            var header = page.children(":jqmData(role=header)");
+                            header.find("h1").html(data.Name);
+                            var markup = "<form action='#' method='post'><fieldset>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='name'>Name</label>";
+                            markup += "<input type='text' id='name' name='name' value='" + data.Name + "'/>";
+                            markup += "<input type='hidden' id='formId' name='formId' value='" + data.FormId + "'/>";
+                            markup += "<input type='hidden' id='fieldId' name='fieldId' value='" + fieldId + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='data'>Data</label>";
+                            markup += "<input type='text' id='data' name='data' value='" + data.Data + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldTypeId' class='select'>Type</label>";
+                            markup += "<select id='fieldTypeId' name='fieldTypeId' value='" + data.FieldTypeId + "'><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.Selections.length; j++) {
+                                var selection = data.Selections[j];
+                                markup += "<option value='" + selection.FieldTypeId + "'";
+                                if (selection.FieldTypeId == data.FieldTypeId) {
+                                    markup += " selected='selected'";
+                                }
+                                markup += ">" + selection.Name + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldOrder'>Order</label>";
+                            markup += "<input type='number' id='fieldOrder' name='fieldOrder' value='" + data.FieldOrder + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='required'>Required</label>";
+                            markup += "<select name='required' id='required' data-role='slider'>";
+                            if (data.Required) {
+                                markup += "<option value='false'>Off</option><option value='true' selected='selected'>On</option></select>";
+                            }
+                            else {
+                                markup += "<option value='false' selected='selected'>Off</option><option value='true'>On</option></select>";
+                            }
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldColumn'>Column</label>";
+                            markup += "<input type='text' id='fieldColumn' name='fieldColumn' value='" + data.FieldColumn + "'/>";
+                            markup += "</div>";
+                            markup += "<a href='#DeleteField?fieldId=" + fieldId + "' data-role='button' data-icon='delete' data-inline='true'>Slet</a>";
+                            markup += "<button type='submit' data-icon='check' data-theme='b' data-inline='true'>Gem</button>";
+                            markup += "</fieldset></form>";
+                            var content = page.children(":jqmData(role=content)");
+                            content.html(markup);
+                            page.trigger("create");
+                            $.mobile.changePage(page, options);
+                        }
+                        else {
+                            lastPage = urlObj.hash;
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#Error");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+            }
+        }
+        function addFieldModel(urlObj, options) {
+            var formId = urlObj.hash.replace(/.*formId=/, "");
+            if (formId == "#AddFieldModel") {
+                $.mobile.changePage($(formId), options);
+            }
+            else {
+                $.mobile.showPageLoadingMsg();
+
+                $.ajax({
+                    url: url + "fieldtypes",
+                    data: { username: username, password: password },
+                    dataType: 'jsonp',
+                    success: function (data) {
+                        if (data.IsAuthenticated) {
+                            var page = $("#AddField");
+                            page.page();
+                            var header = page.children(":jqmData(role=header)");
+                            header.find("h1").html("Nyt Felt");
+                            var markup = "<form action='#' method='post'><fieldset>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='name'>Name</label>";
+                            markup += "<input type='text' id='name' name='name' value=''/>";
+                            markup += "<input type='hidden' id='formId' name='formId' value='" + formId + "'/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='data'>Data</label>";
+                            markup += "<input type='text' id='data' name='data' value=''/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldTypeId' class='select'>Type</label>";
+                            markup += "<select id='fieldTypeId' name='fieldTypeId' value=''><option data-placeholder='true'>-- Vælg --</option>";
+                            for (var j = 0; j < data.FieldTypes.length; j++) {
+                                var selection = data.FieldTypes[j];
+                                markup += "<option value='" + selection.FieldTypeId + "'";
+                                markup += ">" + selection.Name + "</option>";
+                            }
+                            markup += "</select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldOrder'>Order</label>";
+                            markup += "<input type='number' id='fieldOrder' name='fieldOrder' value=''/>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='required'>Required</label>";
+                            markup += "<select name='required' id='required' data-role='slider'>";
+                            markup += "<option value='false' selected='selected'>Off</option><option value='true'>On</option></select>";
+                            markup += "</div>";
+                            markup += "<div data-role='fieldcontain'>";
+                            markup += "<label for='fieldColumn'>Column</label>";
+                            markup += "<input type='text' id='fieldColumn' name='fieldColumn' value=''/>";
+                            markup += "</div>";
+                            markup += "<button type='submit' data-theme='b'>Opret</button>";
+                            markup += "</fieldset></form>";
+                            var content = page.children(":jqmData(role=content)");
+                            content.html(markup);
+                            page.trigger("create");
+                            $.mobile.changePage(page, options);
+                        }
+                        else {
+                            lastPage = "#AddField";
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#Error");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+            }
+        }
+        function getAuthCookie() {
+            var cn = "Authorization=";
+            var idx = document.cookie.indexOf(cn)
+
+            if (idx != -1) {
+                var end = document.cookie.indexOf(";", idx + 1);
+                if (end == -1) end = document.cookie.length;
+                return unescape(document.cookie.substring(idx + cn.length, end));
+            } else {
+                return "";
+            }
+        }
+        function deleteField(urlObj, options) {
+            var fieldId = urlObj.hash.replace(/.*fieldId=/, "");
+            if (fieldId == "#DeleteFieldModel") {
+                $.mobile.changePage($(formId), options);
+            }
+            else {
+
+                $.mobile.showPageLoadingMsg("a", "Sletter...", false);
+                $.ajax({
+                    url: url + "deletefield",
+                    dataType: 'jsonp',
+                    data: { fieldId: fieldId, username: username, password: password },
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.IsAuthenticated) {
+                            $.mobile.changePage("#FieldsModel?formId="+data.FormId);
+                        }
+                        else {
+                            lastPage = urlObj.hash;
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#Error");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+            }
+
+        }
+        $(document).ready(function (event) {
+            $.support.cors = true;
+            $('#LoginForm').bind("submit", function (event) {
+                event.preventDefault();
+                username = $("#username").val();
+                password = $("#password").val();
+                $.mobile.showPageLoadingMsg("a", "Checker login...", false);
+                $.ajax({
+                    url: url + "account",
+                    dataType: "jsonp",
+                    data: { username: username, password: password },
+                    success: function (data) {
+                        var error = $("#loginError");
+                        if (data.IsAuthenticated) {
+                            error[0].style.visibility = "hidden";
+                            roles = data.Roles;
+                            $.mobile.changePage(lastPage);
+                        }
+                        else {
+                            error[0].style.visibility = "visible";
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#loginError");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+                return false;
+            });
+            $('#AddField').bind("submit", function (event) {
+                event.preventDefault();
+                var data = {username: username, password: password };
+                $.each($(event.target).serializeArray(), function (index, value) {
+                    data[value.name] = value.value;
+                });
+                $.mobile.showPageLoadingMsg("a", "Opretter field...", false);
+                $.ajax({
+                    url: url + "field",
+                    dataType: "jsonp",
+                    data: data,
+                    success: function (data) {
+                        if (data.IsAuthenticated) {
+                            $.mobile.changePage("#FieldsModel?formId="+data.FormId);
+                        }
+                        else {
+                            lastPage = "#AddField";
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#loginError");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+                return false;
+            });
+            $('#FieldModel').bind("submit", function (event) {
+                event.preventDefault();
+                var data = { username: username, password: password };
+                $.each($(event.target).serializeArray(), function (index, value) {
+                    data[value.name] = value.value;
+                });
+                $.mobile.showPageLoadingMsg("a", "Gemmer data...", false);
+                $.ajax({
+                    url: url + "field",
+                    dataType: "jsonp",
+                    data: data,
+                    success: function (data) {
+                        if (data.IsAuthenticated) {
+                            $.mobile.changePage("#FieldsModel?formId=" + data.formId);
+                        }
+                        else {
+                            lastPage = "#FieldModel";
+                            $.mobile.changePage("#Login");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.mobile.changePage("#loginError");
+                    },
+                    complete: function () {
+                        $.mobile.hidePageLoadingMsg();
+                    }
+                });
+                return false;
+            });
+            $.mobile.changePage("#FormsModel");
+        });
+        $(document).bind("pagebeforechange", function (e, data) {
+            //$.mobile.showPageLoadingMsg("b", "This is only a test", false);
+            if (typeof data.toPage === "string") {
+                var u = $.mobile.path.parseUrl(data.toPage);
+                if (u.hash.search(/^#FormModel/) !== -1) {
+                    formModel(u, data.options);
+                    e.preventDefault();
+                }
+                else if (u.hash.search(/^#FormsModel/) !== -1) {
+                    formsModel(u, data.options);
+                    e.preventDefault();
+                }
+                else if (u.hash.search(/^#FieldsModel/) !== -1) {
+                    fieldsModel(u, data.options);
+                    e.preventDefault();
+                }
+                else if (u.hash.search(/^#FieldModel/) !== -1) {
+                    fieldModel(u, data.options);
+                    e.preventDefault();
+                }
+                else if (u.hash.search(/^#AddField/) !== -1) {
+                    addFieldModel(u, data.options);
+                    e.preventDefault();
+                }
+                else if (u.hash.search(/^#DeleteField/) !== -1) {
+                    deleteField(u, data.options);
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="FormsModel" data-role="page" data-theme="c">
+        <div data-role="content">
+            <ul data-role="listview" data-filter="true" data-filter-theme="b" data-filter-placeholder="Søg formular...">
+            </ul>
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#FormsModel">Forms</a></li>
+                    <li><a href="#FormGroups">FormGroups</a></li>
+                    <li><a href="#Users">Users</a></li>
+                    <li><a href="#Roles">Roles</a></li>
+                    <li><a href="#Companies">Companies</a></li>
+                    <li><a href="#Info">Info</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="FieldsModel" data-role="page" data-theme="c">
+        <div data-role="content">
+            <ul data-role="listview" data-filter="true" data-filter-theme="b" data-filter-placeholder="Søg felt...">
+            </ul>
+        </div>
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <div id="FieldModel" data-role="page" data-theme="a">
+        <div data-role="header">
+            <h1></h1>
+        </div>
+        <div data-role="content">
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#FieldsModel">Fields</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="AddField" data-role="page" data-theme="a">
+        <div data-role="header">
+            <h1></h1>
+        </div>
+        <div data-role="content">
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#FieldsModel">Fields</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="FormModel" data-role="page" data-theme="a">
+        <div data-role="header">
+            <h1></h1>
+        </div>
+        <div data-role="content">
+            
+        </div>
+       <div data-role="footer" data-position="fixed">
+        </div>
+
+    </div>
+    <div id="Error" data-role="dialog">
+        <div data-role="header">
+            <h1>
+                Fejl</h1>
+        </div>
+        <div data-role="content">
+        </div>
+    </div>
+    <div id="Login" data-role="dialog">
+        <div data-role="header">
+            <h1>Login</h1>
+        </div>
+        <div data-role="content">
+            <h2>Rapport Fra Stedet - Administration</h2>
+            <form id="LoginForm" action="#FormsModel" method="post">
+            <fieldset>
+            <div data-role="fieldcontain">
+	            <label for="username">Username:</label>
+	            <input type="text" name="username" id="username" value="" />
+			</div>
+            <div data-role="fieldcontain">
+	            <label for="password">Password:</label>
+	            <input type="password" name="password" id="password" value="" />
+			</div>
+            <label class="error" style="visibility:hidden" id="loginError">Username og password er forkert!</label>
+            <button type='submit' data-theme='b'">Login</button>
+            </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

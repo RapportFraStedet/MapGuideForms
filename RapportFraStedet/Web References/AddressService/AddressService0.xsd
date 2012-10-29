@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RapportFraStedet.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RapportFraStedet.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfStreetModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StreetModel" nillable="true" type="tns:StreetModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStreetModel" nillable="true" type="tns:ArrayOfStreetModel" />
+  <xs:complexType name="StreetModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StreetId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreetModel" nillable="true" type="tns:StreetModel" />
+  <xs:complexType name="ArrayOfAddressModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AddressModel" nillable="true" type="tns:AddressModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAddressModel" nillable="true" type="tns:ArrayOfAddressModel" />
+  <xs:complexType name="AddressModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SRS" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StreetId" type="xs:int" />
+      <xs:element minOccurs="0" name="X" type="xs:double" />
+      <xs:element minOccurs="0" name="Y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddressModel" nillable="true" type="tns:AddressModel" />
+</xs:schema>

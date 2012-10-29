@@ -1,0 +1,201 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>
+        @Model.View.Group.Name
+    </title>
+    <style type="text/css">
+        a:hover
+        {
+            text-decoration: none !important;
+        }
+        .header h1
+        {
+            color: #47c8db;
+            font: bold 32px Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 40px;
+        }
+        .header p
+        {
+            color: #c6c6c6;
+            font: normal 12px Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 18px;
+        }
+        
+        .content h2
+        {
+            color: #646464;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            line-height: 26px;
+            font-size: 18px;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .content p
+        {
+            color: #767676;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+            line-height: 20px;
+            font-size: 12px;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .content a
+        {
+            color: #0eb6ce;
+            text-decoration: none;
+        }
+        .footer p
+        {
+            font-size: 11px;
+            color: #7d7a7a;
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .footer a
+        {
+            color: #0eb6ce;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background: #4b4b4b url('@Url.Abs(Url.Content("~/Content/themes/modern/images/bg_email.png"))');"
+    bgcolor="#4b4b4b">
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="padding: 35px 0;
+        background: #4b4b4b url('@Url.Abs(Url.Content("~/Content/themes/modern/images/bg_email.png"))');">
+        <tr>
+            <td align="center" style="margin: 0; padding: 0; background: url('@Url.Abs(Url.Content("~/Content/themes/modern/images/bg_email.png"))');">
+                <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" style="font-family: Helvetica, Arial, sans-serif;
+                    background: #2a2a2a;" class="header">
+                    <tr>
+                        <td width="600" align="left" style="padding: font-size: 0; line-height: 0; height: 7px;"
+                            height="7" colspan="2">
+                            <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/bg_header.png"))" alt="header bg" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20" style="font-size: 0px;">
+                            &nbsp;
+                        </td>
+                        <td width="580" align="left" style="padding: 18px 0 10px;">
+                            <h1 style="color: #47c8db; font: bold 32px Helvetica, Arial, sans-serif; margin: 0;
+                                padding: 0; line-height: 40px;">@Model.View.Group.Name</h1>
+                            <p style="color: #c6c6c6; font: normal 12px Helvetica, Arial, sans-serif; margin: 0;
+                                padding: 0; line-height: 18px;"><a href="@Url.Abs(Url.Content("~/Data.aspx/Index/7?itemId="+Model.ItemId.ToString()+"&formId="+Model.Form.FormId.ToString()))">@Model.Form.Name @Model.ItemId</a></p>
+                        </td>
+                    </tr>
+                </table>
+                <!-- header-->
+                <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" style="font-family: Helvetica, Arial, sans-serif;
+                    background: #fff;" bgcolor="#fff">
+                    <tr>
+                        <td width="600" valign="top" align="left" style="font-family: Helvetica, Arial, sans-serif;
+                            padding: 20px 0 0;" class="content">
+                            <table cellpadding="0" cellspacing="0" border="0" style="color: #717171; font: normal 11px Helvetica, Arial, sans-serif;
+                                margin: 0; padding: 0;" width="600">
+                                <tr>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                    <td style="padding: 0; font-family: Helvetica, Arial, sans-serif; background: url('@Url.Abs("~/Content/themes/modern/images/bg_date_wide.png")') no-repeat left top;
+                                        height: 20px; line-height: 20px;" align="center" width="558" height="20">
+                                        <h3 style="color: #666; font-weight: bold; text-transform: uppercase; margin: 0;
+                                            padding: 0; line-height: 10px; font-size: 10px;">@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:D}", Model.Date)</h3>
+                                    </td>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                    <td style="padding: 20px 0 0;" align="left">
+                                        <h2 style="color: #646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px;
+                                            font-size: 18px; font-family: Helvetica, Arial, sans-serif;">
+                                            Tak for din indberetning om @Model.Form.Name.</h2>
+                                    </td>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                    <td style="padding: 15px 0 15px;" valign="top">
+                                        <p style="color: #767676; font-weight: normal; margin: 0; padding: 0; line-height: 20px;
+                                            font-size: 12px; font-family: Helvetica, Arial, sans-serif;">
+                                            Din indberetning er registreret med følgende id: @Model.ItemId</p>
+                                        <br/>
+                                        <table cellpadding="0" cellspacing="0" border="0"><!-- width="558" -->
+                                            @foreach (var field in Model.Form.Fields)
+                                            {
+                                                if (!String.IsNullOrEmpty(field.FieldColumn))
+                                                {
+                                                <tr>
+                                                    <td>
+                                                        <p style="color: #0eb6ce; font-weight: normal; margin: 0; padding: 0; line-height: 20px;
+                                                            font-size: 12px; font-family: Helvetica, Arial, sans-serif;">
+                                                            @field.Name
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="color: #767676; font-weight: normal; margin: 0; padding: 0; line-height: 20px;
+                                                            font-size: 12px; font-family: Helvetica, Arial, sans-serif;">
+                                                            @field.Data
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                }
+                                            }
+                                        </table>
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/divider_wide.png"))" alt="" style="border-top: 10px solid #fff;width: 558px"/>
+                                    </td>
+                                    <td width="21" style="font-size: 1px; line-height: 1px;">
+                                        <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/spacer.gif"))" alt="space" width="20"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="600" align="left" style="padding: font-size: 0; line-height: 0; height: 3px;"
+                            height="3" colspan="2">
+                            <img src="@Url.Abs(Url.Content("~/Content/themes/modern/images/bg_bottom.png"))" alt="header bg"/>
+                        </td>
+                    </tr>
+                </table>
+                <!-- body -->
+                <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" style="font-family: Helvetica, Arial, sans-serif;
+                    line-height: 10px;" class="footer">
+                    <tr>
+                        <td align="center" style="padding: 5px 0 10px; font-size: 11px; color: #7d7a7a; margin: 0;
+                            line-height: 1.2; font-family: Helvetica, Arial, sans-serif;" valign="top">
+                            <br/>
+                            <p style="font-size: 11px; color: #7d7a7a; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif;">@Model.UniqueId</p>
+                        </td>
+                    </tr>
+                </table>
+                <!-- footer-->
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+

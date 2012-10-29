@@ -1,0 +1,106 @@
+﻿@model RapportFraStedet.Models.Form
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Form</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SRS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SRS)
+            @Html.ValidationMessageFor(model => model.SRS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ResourceName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ResourceName)
+            @Html.ValidationMessageFor(model => model.ResourceName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClassName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ClassName)
+            @Html.ValidationMessageFor(model => model.ClassName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UploadPhysicalPath)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UploadPhysicalPath)
+            @Html.ValidationMessageFor(model => model.UploadPhysicalPath)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UploadVirtualPath)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UploadVirtualPath)
+            @Html.ValidationMessageFor(model => model.UploadVirtualPath)
+        </div>
+        <h3>Email Views</h3>
+        <table>
+        <thead>
+        <tr>
+        <th></th>
+        <th>Receiver</th>
+        <th>Sender</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>On Create</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToReceiverOnCreate,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToSenderOnCreate,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        </tr>
+        <tr>
+        <td>On Edit</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToReceiverOnEdit,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToSenderOnEdit,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        </tr>
+        <tr>
+        <td>On Delete</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToReceiverOnDelete,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        <td>@Html.DropDownListFor(model => model.ViewEmailToSenderOnDelete,ViewBag.EmailViews as SelectList,"-- Vælg --")</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

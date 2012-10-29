@@ -1,0 +1,203 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@{
+    ViewBag.Title = Model.Form.Name;
+    RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+    RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+    RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+}
+
+@section menu{
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
+    </ul>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("RapportFraStedet").clearMarker();
+			parent.Fusion.getWidgetById("RapportFraStedet").createGeometry();
+        }
+    });
+</script>
+<h2>
+    Se</h2>
+<fieldset>
+    @Html.HiddenFor(model => model.Form.SRS)
+
+    <legend>Data</legend>
+    <table>
+        <tr>
+            <td>
+                UserId
+            </td>
+            <td>@Model.UserId
+            </td>
+        </tr>
+        <tr>
+            <td>
+                UserName
+            </td>
+            <td>@Model.UserName
+            </td>
+        </tr>
+        <tr>
+            <td>
+                UniqueId
+            </td>
+            <td>@Model.UniqueId
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Company
+            </td>
+            <td>@Model.Company
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Date
+            </td>
+            <td>@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:d}", Model.Date)
+            </td>
+        </tr>
+        @foreach (var field in Model.Form.Fields.OrderBy(m => m.FieldOrder))
+        {
+            //Permissions
+            RapportFraStedet.Models.Permission permission = Model.View.Permissions.FirstOrDefault(m => m.FieldId == field.FieldId);
+            //0 = Hidden
+            //1 = Read
+            //3 = Write
+            bool handled = false;
+            if (permission != null)
+            {
+                if (permission.PermissionTypeId == 0)
+                {
+                    handled = true;
+                    switch (field.FieldTypeId)
+                    {
+                        case 16:
+                        @Html.Hidden("Geometri", field.Data)
+                            break;
+                        case 17:
+                        @Html.Hidden("Position", field.Data)
+                            break;
+                        case 18:
+                        @Html.Hidden("Accuracy", field.Data)
+                            break;
+                        default:
+                        @Html.Hidden(field.FieldId.ToString(), field.Data)
+                            break;
+                    }
+
+                }
+            }
+            if (!handled)
+            {
+
+            <tr>
+                <td>
+                    @field.Name
+                </td>
+                <td>
+                    @if (field.FieldTypeId == 8)
+                    {
+                        string data = field.Data;
+                        if (!String.IsNullOrEmpty(data))
+                        {
+                            string ext = Path.GetExtension(data);
+                            if (ext.ToLower() == ".mp4")
+                            {
+                                string video = Model.Form.UploadVirtualPath + "/" + data;
+                                <video id="@field.FieldId" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100" data-setup="{}">
+		                            <source src="@video" type='video/mp4'>
+	                            </video>
+                            }
+                            else
+                            {
+                                string img = Model.Form.UploadVirtualPath + "/Thumb_" + data;
+                                string a = Model.Form.UploadVirtualPath + "/" + data; 
+                                <a href="@a" target="_blank"><img src="@img" /></a>
+                            }
+                        }
+                    }
+                    else if (field.FieldTypeId == 6 || field.FieldTypeId == 12 || field.FieldTypeId == 13)
+                    {
+                        if (field.Data != "false")
+                        {
+                            @Html.Encode("Ja")
+                        }
+                        else
+                        {
+                            @Html.Encode("Nej")
+                        }
+                    }
+                    else if (field.FieldTypeId == 16)
+                    {
+                        @field.Data
+                        @Html.Hidden("Geometri", field.Data)
+                    }
+                    else if (field.FieldTypeId == 17)
+                    {
+                        @field.Data
+                        @Html.Hidden("Position", field.Data)
+                    }
+                    else if (field.FieldTypeId == 18)
+                    {
+                        @field.Data
+                        @Html.Hidden("Accuracy", field.Data)
+                    }
+                    else
+                    {
+                        @field.Data
+                    }
+                </td>
+            </tr>
+            }
+        }
+    </table>
+</fieldset>
+<p>
+    @{
+        RapportFraStedet.Models.View list = null;
+        RapportFraStedet.Models.View edit = null;
+        bool showEdit = false;
+        try
+        {
+            list = Model.View.Group.Views.Single(m => m.ViewTypeId == 5);
+        }
+        catch { }
+        try
+        {
+            edit = Model.View.Group.Views.Single(m => m.ViewTypeId == 2);
+        }
+        catch { }
+        if (edit != null && (User.Identity.Name == Model.UserName || User.IsInRole("Administrator") || User.IsInRole("Editor")))
+        { 
+        @Html.ActionLink("Ret", "Index", new { id = edit.ViewId, itemId = Model.ItemId, formId = Model.Form.FormId })
+            showEdit = true;
+        }
+        if (list != null)
+        {
+            if (showEdit)
+            {
+        @Html.Encode(" | ")
+            }
+        @Html.ActionLink("Tilbage", "Index", new { id = list.ViewId, formId = Model.Form.FormId })
+        }
+    }
+</p>

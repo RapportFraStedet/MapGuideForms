@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/tablesorter/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/redmond/jquery-ui-1.8.8.custom.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.8.custom.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.ui.datepicker-da.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.cascadingDropDown.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.parsequery.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+    </script>
+
+</head>
+<body>
+    <div class="page">
+
+        <div id="header">
+            <div id="title">
+                <h1>@ViewBag.Title</h1>
+            </div>
+
+            <div id="logindisplay">
+                @Html.Partial("_LogOnPartial")
+            </div>
+
+            <div id="menucontainer">
+                <ul id="menu">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                    <li>@Html.ActionLink("Forms", "Index", "Forms")</li>
+                    <li>@Html.ActionLink("FormGroups", "Index", "Groups")</li>
+                    <li>@Html.ActionLink("Companies", "Index", "Companies")</li>
+                }
+                    <li>@Html.ActionLink("Info", "About", "Home")</li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div id="main">
+            @RenderBody()
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

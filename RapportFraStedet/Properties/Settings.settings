@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RapportFraStedet.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RapportFraStedet_GeokeysV4_IGeoKeysFacadeService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://kortforsyningen.kms.dk/geokeys_v4?service=GEO&amp;request=SOAP</Value>
+    </Setting>
+    <Setting Name="KMS_USERNAME" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Tvilum</Value>
+    </Setting>
+    <Setting Name="KMS_PASSWORD" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">HUGINBT2</Value>
+    </Setting>
+    <Setting Name="MaxHeight" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="MaxWidth" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="SendEmails" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ColumnStreetId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vejk</Value>
+    </Setting>
+    <Setting Name="ColumnStreetName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vejnavn</Value>
+    </Setting>
+    <Setting Name="ColumnAddressStreetId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vejkode</Value>
+    </Setting>
+    <Setting Name="ColumnAddressName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">husnr</Value>
+    </Setting>
+    <Setting Name="ColumnAddressOrder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">husnr0</Value>
+    </Setting>
+    <Setting Name="ColumnAddressX" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">x</Value>
+    </Setting>
+    <Setting Name="ColumnAddressY" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">y</Value>
+    </Setting>
+    <Setting Name="TableStreet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vejk</Value>
+    </Setting>
+    <Setting Name="TableAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">adr</Value>
+    </Setting>
+    <Setting Name="ReverseDate" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ColumnStreetOrder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vejnavn</Value>
+    </Setting>
+    <Setting Name="AddressSRS" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">EPSG:25832</Value>
+    </Setting>
+    <Setting Name="RapportFraStedet_AddressService_AddressService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost/RapportFraStedet/Services/AddressService.svc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

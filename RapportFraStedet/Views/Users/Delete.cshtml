@@ -1,0 +1,38 @@
+﻿@model RapportFraStedet.Models.Account.DetailsModel
+
+@{
+    ViewBag.Title = "Slet";
+}
+
+<h2>Slet</h2>
+
+<h3>Er du sikker på at du vil slette brugeren?</h3>
+<fieldset>
+    <legend>DetailsModel</legend>
+
+    <div class="display-label">UserName</div>
+    <div class="display-field">@Model.UserName</div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">@Model.Email</div>
+
+    <div class="display-label">FirstName</div>
+    <div class="display-field">@Model.FirstName</div>
+
+    <div class="display-label">LastName</div>
+    <div class="display-field">@Model.LastName</div>
+
+    <div class="display-label">Phone</div>
+    <div class="display-field">@Model.Phone</div>
+
+    <div class="display-label">Company</div>
+    <div class="display-field">@Model.Company</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Slet" /> |
+        @Html.ActionLink("Tilbage", "Index")
+    </p>
+}
+
+

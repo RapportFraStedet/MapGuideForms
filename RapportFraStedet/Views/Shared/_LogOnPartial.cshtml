@@ -1,0 +1,9 @@
+﻿@if(Request.IsAuthenticated) {
+    <text>Velkommen <b>@Context.User.Identity.Name</b>!
+    [ @Html.ActionLink("Log Off", "LogOff", "Account") ]
+    [ @Html.ActionLink("Profile", "Profile", "Account") ]</text>
+}
+else {
+    @:[ @Html.ActionLink("Log On", "LogOn", "Account") ]
+}
+<text>[ <a href="javascript:window.print()">Print</a> ]</text>

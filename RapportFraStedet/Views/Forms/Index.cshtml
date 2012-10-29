@@ -1,0 +1,112 @@
+﻿@model IEnumerable<RapportFraStedet.Models.Form>
+
+@{
+    ViewBag.Title = "Forms";
+}
+
+<h2>Forms</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            SRS
+        </th>
+        <th>
+            ResourceName
+        </th>
+        <th>
+            ClassName
+        </th>
+        <th>
+            Upload Physical Path
+        </th>
+        <th>
+            Upload Virtual Path
+        </th>
+        <th>
+            View Email To Receiver On Create
+        </th>
+        <th>
+            View Email To Receiver On Edit
+        </th>
+        <th>
+            View Email To Receiver On Delete
+        </th>
+        <th>
+            View Email To Sender On Create
+        </th>
+        <th>
+            View Email To Sender On Edit
+        </th>
+        <th>
+            View Email To Sender On Delete
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FormId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FormId }) |
+            @Html.ActionLink("Fields", "Index", "Fields", new { id=item.FormId },null)
+        </td>
+        <td>
+            @item.FormId
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.Email
+        </td>
+        <td>
+            @item.SRS
+        </td>
+        <td>
+            @item.ResourceName
+        </td>
+        <td>
+            @item.ClassName
+        </td>
+        <td>
+            @item.UploadPhysicalPath
+        </td>
+        <td>
+            @item.UploadVirtualPath
+        </td>
+        <td>
+            @item.ViewEmailToReceiverOnCreate
+        </td>
+        <td>
+            @item.ViewEmailToReceiverOnEdit
+        </td>
+        <td>
+            @item.ViewEmailToReceiverOnDelete
+        </td>
+        <td>
+            @item.ViewEmailToSenderOnCreate
+        </td>
+        <td>
+            @item.ViewEmailToSenderOnEdit
+        </td>
+        <td>
+            @item.ViewEmailToSenderOnDelete
+        </td>
+    </tr>
+}
+
+</table>
+

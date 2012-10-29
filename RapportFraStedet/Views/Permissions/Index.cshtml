@@ -1,0 +1,50 @@
+﻿@model IEnumerable<RapportFraStedet.Models.Permission>
+
+@{
+    ViewBag.Title = "Permissions";
+}
+
+<h2>@ViewBag.View.Name</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.View.ViewId })
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>Form</th>
+        <th>
+            Field
+        </th>
+        <th>
+            Permission
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PermissionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PermissionId })
+        </td>
+        <td>@item.Field.Form.Name</td>
+        <td>
+            @item.Field.Name
+        </td>
+        <td>
+            @item.PermissionType.Name
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("FormGroups ", "Index", "Groups")
+    @Html.Encode(" ")>@Html.Encode(" ")
+    @{
+        string name = String.Format("[{0}] Views ", ViewBag.View.Group.Name);
+        }
+    @Html.ActionLink(name, "Index", "Views", new { id = ViewBag.View.Group.GroupId }, null)
+
+</div>

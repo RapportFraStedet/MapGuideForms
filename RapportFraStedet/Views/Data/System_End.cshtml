@@ -1,0 +1,99 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@{
+    ViewBag.Title = Model.Form.Name + " " + Model.ItemId;
+    RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+    RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+    RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+}
+
+@section menu{
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
+    </ul>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("RapportFraStedet").removeTools();
+            parent.Fusion.getWidgetById("RapportFraStedet").clearMarker();
+            parent.Fusion.getWidgetById("RapportFraStedet").removeAllFeatures();
+            parent.Fusion.getWidgetById("Map").redraw();
+        }
+    });
+</script>
+<p>
+    Tak for din indberetning om @Model.Form.Name.</p>
+<p>
+    Din indberetning er registreret med følgende id: @Model.Form.Name @Model.ItemId</p>
+<fieldset>
+    <table>
+        @foreach (var field in Model.Form.Fields.OrderBy(m=>m.FieldOrder))
+        {
+            //Permissions
+            RapportFraStedet.Models.Permission permission = Model.View.Permissions.FirstOrDefault(m => m.FieldId == field.FieldId);
+            //0 = Hidden
+            //1 = Read
+            //3 = Write
+            bool handled = false;
+            if (permission != null)
+            {
+                if (permission.PermissionTypeId == 0)
+                {
+                    handled = true;
+                }
+            }
+            if (!handled)
+            {
+
+            <tr>
+                <td>
+                    @field.Name
+                </td>
+                <td>
+                    @if (field.FieldTypeId == 8)
+                    {
+                        string data = field.Data;
+                        if (!String.IsNullOrEmpty(data))
+                        {
+                            string img = Model.Form.UploadVirtualPath + "/Thumb_" + data;
+                            string a = Model.Form.UploadVirtualPath + "/" + data; 
+                            <a href="@a" target="_blank"><img src="@img" /></a>
+                        }
+                    }
+                    else if(field.FieldTypeId == 12 || field.FieldTypeId == 13)
+                    {
+                        if(field.Data!="false")
+                        {
+                            @Html.Encode("Ja")
+                        }
+                        else
+                        {
+                            @Html.Encode("Nej")
+                        }
+                    }
+                    else
+                    {
+                        @field.Data
+                    }
+                </td>
+            </tr>
+            }
+        }
+    </table>
+</fieldset>
+<p>
+    @Html.ActionLink("Ny indberetning", "Index", new { id = ViewBag.Id })
+</p>

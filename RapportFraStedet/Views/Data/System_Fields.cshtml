@@ -1,0 +1,287 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@Html.HiddenFor(model => model.UniqueId)
+@Html.HiddenFor(model => model.ItemId)
+@Html.HiddenFor(model => model.View.ViewId)
+@Html.HiddenFor(model => model.UserId)
+@Html.HiddenFor(model => model.UserName)
+@Html.HiddenFor(model => model.Date)
+@Html.HiddenFor(model => model.Form.SRS)
+
+@if (Model.Form != null)
+{
+        <fieldset>
+        <legend>@Model.Form.Name</legend>
+        @Html.ValidationSummary()
+    @Html.HiddenFor(model => model.Form.FormId)
+    @foreach (var item in Model.Form.Fields.OrderBy(m => m.FieldOrder))
+    {
+        //Permissions
+        RapportFraStedet.Models.Permission permission = Model.View.Permissions.FirstOrDefault(m => m.FieldId == item.FieldId);
+        //0 = Hidden
+        //1 = Read
+        //3 = Write
+        bool handled = false;
+        if (permission != null)
+        {
+            if (permission.PermissionTypeId == 0)
+            {
+                handled = true;
+                switch(item.FieldTypeId)
+                {
+                    case 16:
+                        @Html.Hidden("Geometri", item.Data)
+                        @Html.ValidationMessage("Geometri", "*")
+                        break;
+                    case 17:
+                        @Html.Hidden("Position", item.Data)
+                        @Html.ValidationMessage("Position", "*")
+                        break;
+                    case 18:
+                        @Html.Hidden("Accuracy", item.Data)
+                        @Html.ValidationMessage("Accuracy", "*")
+                        break;
+                    default:
+                        @Html.Hidden(item.FieldId.ToString(), item.Data)
+                        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+                        break;
+                }
+            }
+            else if (permission.PermissionTypeId == 1)
+            {
+                handled = true;
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @item.Data
+        @switch(item.FieldTypeId)
+                {
+                    case 16:
+                        @Html.Hidden("Geometri", item.Data)
+                        @Html.ValidationMessage("Geometri", "*")
+                        break;
+                    case 17:
+                        @Html.Hidden("Position", item.Data)
+                        @Html.ValidationMessage("Position", "*")
+                        break;
+                    case 18:
+                        @Html.Hidden("Accuracy", item.Data)
+                        @Html.ValidationMessage("Accuracy", "*")
+                        break;
+                    default:
+                        @Html.Hidden(item.FieldId.ToString(), item.Data)
+                        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+                        break;
+                }
+    </div>
+        
+            }
+        }
+        if (!handled)
+        {
+            switch (item.FieldTypeId)
+            {
+                case 1: //Label
+    <div class="editor-label">
+        @item.Name
+    </div>
+
+   break;
+                case 2: //TextBox
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox(item.FieldId.ToString(), item.Data)
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+
+   break;
+                case 3: //DropDownList
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.DropDownList(item.FieldId.ToString(), new SelectList(item.Selections, "Name", "Name", item.Data), "-- Vælg --")
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 4: //RadioButton
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <fieldset>
+        @foreach (var selection in item.Selections.OrderBy(m => m.SelectionOrder))
+        {
+            <div class="editor-field">
+            @if (selection.Name == item.Data)
+            {
+                @Html.RadioButton(item.FieldId.ToString(), selection.Name, true)
+            }
+            else
+            {
+                @Html.RadioButton(item.FieldId.ToString(), selection.Name, false)
+            }@selection.Name
+            </div>
+        }
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </fieldset>
+
+   break;
+                case 5: //TextArea
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextArea(item.FieldId.ToString(), item.Data)
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 6: //CheckBox
+    <div class="editor-field">
+        @Html.CheckBox(item.FieldId.ToString(), item.Data != "false")
+        @item.Name
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 7: //Email
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox(item.FieldId.ToString(), item.Data)
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+
+                case 8: //FileUpload
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @if (!String.IsNullOrEmpty(item.Data))
+        {
+            string ext = Path.GetExtension(item.Data);
+            if(ext.ToLower()==".mp4")
+            {
+                string video = Model.Form.UploadVirtualPath + "/" + item.Data;
+                <video id="@item.FieldId" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" data-setup="{}">
+		            <source src="@video" type='video/mp4'>
+	            </video>
+            }
+            else
+            {
+                string fileName = Model.Form.UploadVirtualPath + "/Thumb_" + item.Data;
+                <img src="@fileName" />
+            }
+            @Html.Hidden(item.FieldId.ToString(), item.Data)
+        }
+        <input type="file" name="@item.FieldId"/>
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 9: //Address
+    <fieldset>
+        <legend>
+            @item.Name
+        </legend>
+        @Html.Action("Streets", new { id = Model.View.ViewId })
+    </fieldset>
+   break;
+                case 10: //Date
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox(item.FieldId.ToString(), item.Data, new { @class = "datepick" })
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 11: //IP Address
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox(item.FieldId.ToString(), item.Data)
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 12: //Email ved oprettelse
+    <div class="editor-field">
+        @Html.CheckBox(item.FieldId.ToString(), item.Data != "false")
+        @item.Name
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 13: //Email ved ændring
+    <div class="editor-field">
+        @Html.CheckBox(item.FieldId.ToString(), item.Data != "false")
+        @item.Name
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+   break;
+                case 14: //URL link
+    <div class="editor-label">
+        <a href="@item.Data" target="_blank">@item.Name</a>
+    </div>
+                                        break;
+                case 15: //NumberBox
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox(item.FieldId.ToString(), item.Data)
+        @Html.ValidationMessage(item.FieldId.ToString(), "*")
+    </div>
+
+   break;
+                case 16: //Geometri
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextArea("Geometri", item.Data)
+        @Html.ValidationMessage("Geometri", "*")
+    </div>
+
+   break;
+                case 17: //Position
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextArea("Position", item.Data)
+        @Html.ValidationMessage("Position", "*")
+    </div>
+
+   break;
+                case 18: //Accuracy
+    <div class="editor-label">
+        @item.Name
+    </div>
+    <div class="editor-field">
+        @Html.TextBox("Accuracy", item.Data)
+        @Html.ValidationMessage("Accuracy", "*")
+    </div>
+
+   break;
+
+                case 22: //Skillelinie
+                <hr />
+   break;
+                case 23: //Overskrift1
+        <h1>@item.Name</h1>
+       break;
+                case 24: //Paragraph
+        <p>@item.Name</p>
+      break;
+
+
+            }
+        }
+    }
+        </fieldset>
+    <p>
+        <input type="submit" value="Send" />
+    </p>
+}

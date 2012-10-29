@@ -1,0 +1,710 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4F20982-6F18-4B3C-9EF0-1567A2420C0A}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RapportFraStedet</RootNamespace>
+    <AssemblyName>RapportFraStedet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mvc.Mailer">
+      <HintPath>..\packages\MvcMailer.1.1\lib\40\Mvc.Mailer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountNewController.cs" />
+    <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\DataApiController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\Default1Controller.cs" />
+    <Compile Include="Controllers\DeleteFieldController.cs" />
+    <Compile Include="Controllers\EjerlavController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FieldController.cs" />
+    <Compile Include="Controllers\FieldsController.cs" />
+    <Compile Include="Controllers\FieldsNewController.cs" />
+    <Compile Include="Controllers\FieldTypesController.cs" />
+    <Compile Include="Controllers\FormsController.cs" />
+    <Compile Include="Controllers\FormsNewController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KommuneController.cs" />
+    <Compile Include="Controllers\MatrikelController.cs" />
+    <Compile Include="Controllers\MatriklerController.cs" />
+    <Compile Include="Controllers\PermissionsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SaveFormsDataController.cs" />
+    <Compile Include="Controllers\SqlController.cs" />
+    <Compile Include="Controllers\SelectionsController.cs" />
+    <Compile Include="Controllers\TemaController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\ViewsController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Mailers\IUserMailer.cs" />
+    <Compile Include="Mailers\UserMailer.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AccountNewModel.cs" />
+    <Compile Include="Models\AddressModels.cs" />
+    <Compile Include="Models\BasicAuthentication.cs" />
+    <Compile Include="Models\Company.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Models\DataModel.cs" />
+    <Compile Include="Models\DataModels.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Field.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FieldsNewModel.cs" />
+    <Compile Include="Models\FieldType.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Form.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormModel.cs" />
+    <Compile Include="Models\FormsNewModel.cs" />
+    <Compile Include="Models\Group.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupModels.cs" />
+    <Compile Include="Models\JsonpMediaTypeFormatter.cs" />
+    <Compile Include="Models\Kommune.cs" />
+    <Compile Include="Models\ModelForms.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelForms.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelForms.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelForms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelForms.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyAuthentication.cs" />
+    <Compile Include="Models\Permission.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PermissionType.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepositoryAddress.cs" />
+    <Compile Include="Models\RepositoryCompanies.cs" />
+    <Compile Include="Models\RepositoryData.cs" />
+    <Compile Include="Models\RepositoryFields.cs" />
+    <Compile Include="Models\RepositoryFieldsNew.cs" />
+    <Compile Include="Models\RepositoryForms.cs" />
+    <Compile Include="Models\RepositoryFormsNew.cs" />
+    <Compile Include="Models\RepositoryGroups.cs" />
+    <Compile Include="Models\RepositoryKommune.cs" />
+    <Compile Include="Models\RepositoryMapguide.cs" />
+    <Compile Include="Models\RepositoryOpenLayers.cs" />
+    <Compile Include="Models\RepositoryPermissions.cs" />
+    <Compile Include="Models\RepositorySaveData.cs" />
+    <Compile Include="Models\RepositorySelections.cs" />
+    <Compile Include="Models\RepositoryTema.cs" />
+    <Compile Include="Models\RepositoryViews.cs" />
+    <Compile Include="Models\RepositoryViewsNew.cs" />
+    <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\Selection.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tema.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\View.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewType.cs">
+      <DependentUpon>ModelForms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RapportFraStedetGlobalDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RapportFraStedetGlobalDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RapportFraStedetLokalDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RapportFraStedetLokalDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Services\AddressService.svc.cs">
+      <DependentUpon>AddressService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IAddressService.cs" />
+    <Compile Include="Web References\AddressService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\GeokeysV4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\log.txt" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\redmond\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_flat_55_fbec88_40x100.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_glass_75_d0e5f5_1x400.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_glass_85_dfeffc_1x400.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+    <Content Include="Content\themes\redmond\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_217bc0_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_469bdd_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_6da8d5_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\themes\redmond\images\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Content\themes\redmond\jquery-ui-1.8.8.custom.css" />
+    <Content Include="Content\themes\tablesorter\asc.gif" />
+    <Content Include="Content\themes\tablesorter\bg.gif" />
+    <Content Include="Content\themes\tablesorter\desc.gif" />
+    <Content Include="Content\themes\tablesorter\style.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="forms.html" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\android.png" />
+    <Content Include="Images\apple.png" />
+    <Content Include="Images\Chrome.png" />
+    <Content Include="Images\crosshair.png" />
+    <Content Include="Images\datebox.png" />
+    <Content Include="Images\Firefox.png" />
+    <Content Include="Images\html5-badge-h-multimedia.png" />
+    <Content Include="Images\html5-badge-h-storage.png" />
+    <Content Include="Images\HTML5_Logo_64.png" />
+    <Content Include="Images\IE.png" />
+    <Content Include="Images\Kommuner\Fredensborg.jpg" />
+    <Content Include="Images\Kommuner\Fredericia.jpg" />
+    <Content Include="Images\Kommuner\Frederiksberg.jpg" />
+    <Content Include="Images\Kommuner\Frederikssund.jpg" />
+    <Content Include="Images\Kommuner\Guldborgsund.jpg" />
+    <Content Include="Images\Kommuner\Helsingør.jpg" />
+    <Content Include="Images\Kommuner\Jammerbugt.jpg" />
+    <Content Include="Images\Kommuner\København.jpg" />
+    <Content Include="Images\Opera.png" />
+    <Content Include="Images\phone-l.jpg" />
+    <Content Include="Images\phone-p.jpg" />
+    <Content Include="Images\Safari.png" />
+    <Content Include="Images\tablet-l.jpg" />
+    <Content Include="Images\tablet-p.jpg" />
+    <Content Include="Images\Temaer\affald.jpg" />
+    <Content Include="Images\Temaer\bjoerneklo.jpg" />
+    <Content Include="Images\Temaer\graffiti.jpg" />
+    <Content Include="Images\Temaer\gravko.jpg" />
+    <Content Include="Images\Temaer\huller.jpg" />
+    <Content Include="Images\windows.png" />
+    <Content Include="image\datebox.png" />
+    <Content Include="Properties\PublishProfiles\Lokal.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\Rapport Fra Stedet.pubxml.user" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <EntityDeploy Include="Models\ModelForms.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelForms.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelForms.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelForms.edmx</DependentUpon>
+      <LastGenOutput>ModelForms.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelForms.edmx.diagram">
+      <DependentUpon>ModelForms.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\ModelForms.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelForms.edmx</DependentUpon>
+      <LastGenOutput>ModelForms.cs</LastGenOutput>
+    </Content>
+    <None Include="Properties\PublishProfiles\Lokal.pubxml" />
+    <None Include="Properties\PublishProfiles\Rapport Fra Stedet.pubxml" />
+    <Content Include="RapportFraStedetGlobalDataSet.xsc">
+      <DependentUpon>RapportFraStedetGlobalDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="RapportFraStedetGlobalDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RapportFraStedetGlobalDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="RapportFraStedetGlobalDataSet.xss">
+      <DependentUpon>RapportFraStedetGlobalDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="RapportFraStedetLokalDataSet.xsc">
+      <DependentUpon>RapportFraStedetLokalDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="RapportFraStedetLokalDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RapportFraStedetLokalDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="RapportFraStedetLokalDataSet.xss">
+      <DependentUpon>RapportFraStedetLokalDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.8.custom.min.js" />
+    <Content Include="Scripts\jquery.cascadingDropDown.js" />
+    <Content Include="Scripts\jquery.parsequery.js" />
+    <Content Include="Scripts\jquery.tablesorter.min.js" />
+    <Content Include="Scripts\jquery.ui.datepicker-da.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\messages_da.js" />
+    <Content Include="Services\AddressService.svc" />
+    <Content Include="Web References\AddressService\AddressModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\AddressService\AddressService.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Web References\GeokeysV4\AddressAccessVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\AddressCompleteVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\AddressPostalExtendedVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\AddressPostalVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\AddressSpecificVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\BoundingBoxVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\CadastralDistrictVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\DistrictVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\LandParcelStructureExtendedVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\LandPropertyVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\MATRLandParcelIdentificationStructure.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\MunicipalityVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\NearestAddressVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\ParishVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\PlaceCategoryVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\PlaceVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\PointVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\GeokeysV4\service.wsdl" />
+    <Content Include="Web References\GeokeysV4\StreetVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GeokeysV4\StreetWPVO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\AddressService\AddressService.wsdl" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Companies\Create.cshtml" />
+    <Content Include="Views\Companies\Delete.cshtml" />
+    <Content Include="Views\Companies\Edit.cshtml" />
+    <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Views\Data\System_About.cshtml" />
+    <Content Include="Views\Data\System_Address.cshtml" />
+    <Content Include="Views\Data\System_Create.cshtml" />
+    <Content Include="Views\Data\System_Delete.cshtml" />
+    <Content Include="Views\Data\System_Details.cshtml" />
+    <Content Include="Views\Data\System_Edit.cshtml" />
+    <Content Include="Views\Data\System_End.cshtml" />
+    <Content Include="Views\Data\System_Fields.cshtml" />
+    <Content Include="Views\Data\System_Items.cshtml" />
+    <Content Include="Views\Data\System_List.cshtml" />
+    <Content Include="Views\Data\_ViewStart.cshtml" />
+    <Content Include="Views\Error\MaxFileSize.cshtml" />
+    <Content Include="Views\Fields\Create.cshtml" />
+    <Content Include="Views\Fields\Delete.cshtml" />
+    <Content Include="Views\Fields\Edit.cshtml" />
+    <Content Include="Views\Fields\Index.cshtml" />
+    <Content Include="Views\Forms\Create.cshtml" />
+    <Content Include="Views\Forms\Delete.cshtml" />
+    <Content Include="Views\Forms\Edit.cshtml" />
+    <Content Include="Views\Forms\Index.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Permissions\Create.cshtml" />
+    <Content Include="Views\Permissions\Delete.cshtml" />
+    <Content Include="Views\Permissions\Edit.cshtml" />
+    <Content Include="Views\Permissions\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\NoDelete.cshtml" />
+    <Content Include="Views\Selections\Create.cshtml" />
+    <Content Include="Views\Selections\Delete.cshtml" />
+    <Content Include="Views\Selections\Edit.cshtml" />
+    <Content Include="Views\Selections\Index.cshtml" />
+    <Content Include="Views\UserMailer\System_Borger.cshtml" />
+    <Content Include="Views\UserMailer\System_Create_Sender.cshtml" />
+    <Content Include="Views\UserMailer\System_ReceiverOnCreate.cshtml" />
+    <Content Include="Views\UserMailer\System_Sagsbehandler.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\NoDelete.cshtml" />
+    <Content Include="Views\Views\Create.cshtml" />
+    <Content Include="Views\Views\Delete.cshtml" />
+    <Content Include="Views\Views\Edit.cshtml" />
+    <Content Include="Views\Views\Index.cshtml" />
+    <Content Include="Views\Shared\_Administration.cshtml" />
+    <Content Include="Views\Shared\_Indberetning.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_Mail.cshtml" />
+    <Content Include="Views\Shared\_NoLogOnPartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <None Include="Web References\AddressService\AddressService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\AddressService\AddressService0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\AddressService\AddressService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Web References\AddressService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\AddressService\StreetModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://kortforsyningen.kms.dk/service%3fservice=GEO&amp;servicename=geokeys_v4&amp;request=GetWSDL">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GeokeysV4\</RelPath>
+      <UpdateFromURL>http://kortforsyningen.kms.dk/service%3fservice=GEO&amp;servicename=geokeys_v4&amp;request=GetWSDL</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>RapportFraStedet_GeokeysV4_IGeoKeysFacadeService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost:6392/Services/AddressService.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\AddressService\</RelPath>
+      <UpdateFromURL>http://localhost:6392/Services/AddressService.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>RapportFraStedet_AddressService_AddressService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>27235</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/RapportFraStedet</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

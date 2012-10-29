@@ -1,0 +1,73 @@
+﻿@model RapportFraStedet.Models.Permission
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    function GetFields() {
+        var selectedForm = $('#View_Group_DefaultFormId').val();
+        if (selectedForm != null && selectedForm != '') {
+            $.getJSON('@Url.Action("Fields")', { formId: selectedForm }, function (fields) {
+                var fieldsSelect = $('#FieldId');
+                fieldsSelect.empty();
+                $.each(fields, function (index, field) {
+                    fieldsSelect.append($('<option/>', {
+                        value: field.value,
+                        text: field.text
+                    }));
+                });
+            });
+        };
+    }
+    $(document).ready(function () {
+        GetFields();
+        $('#View_Group_DefaultFormId').change(function () {
+            GetFields();
+        });
+    });
+</script>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Permission</legend>
+
+        <div class="editor-label">
+            Vælg formular
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.View.Group.DefaultFormId, new SelectList(Model.View.Group.Forms, "FormId", "Name"))
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FieldId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.FieldId, Enumerable.Empty<SelectListItem>())
+            @Html.ValidationMessageFor(model => model.FieldId)
+        </div>
+
+            @Html.HiddenFor(model => model.ViewId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PermissionTypeId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.PermissionTypeId, ViewBag.PermissionTypes as SelectList, "--Vælg--")
+            @Html.ValidationMessageFor(model => model.PermissionTypeId)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { id = Model.ViewId })
+</div>
+

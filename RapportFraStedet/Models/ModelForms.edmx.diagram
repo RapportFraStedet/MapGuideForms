@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2abcbeb6ecd748d098e57c53975a94a5" Name="Diagram1">
+        <EntityTypeShape EntityType="DatabaseFormsModel.Company" Width="1.5" PointX="7.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.Field" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.FieldType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.Form" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.Group" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.Permission" Width="1.5" PointX="7.5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.PermissionType" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.Selection" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.View" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseFormsModel.ViewType" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <AssociationConnector Association="DatabaseFormsModel.Field_FieldType_Field" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.Field_Form_Field" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.Permission_Field_Permission" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.Selection_Field_Selection" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.View_Group_View" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.Permission_Permission_PermissionType" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.Permission_View_Permission" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.View_ViewType_View" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseFormsModel.FormGroup" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -461,7 +461,7 @@ namespace RapportFraStedet.Models
                         else
                             parameters.Add(field.FieldColumn, String.Format("'{0:yyyy-MM-dd HH:mm:ss}'", dt));
                     }
-                    else if (field.FieldTypeId == 6 || field.FieldTypeId == 13)
+                    else if (field.FieldTypeId == 6 || field.FieldTypeId == 12 || field.FieldTypeId == 13)
                     {
                         string b = "0";
                         if (field.Data != "false" && field.Data != "off")

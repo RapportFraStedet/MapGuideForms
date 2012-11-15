@@ -62,7 +62,7 @@ namespace RapportFraStedet.Controllers
                     HttpContextWrapper http = (HttpContextWrapper)Request.Properties["MS_HttpContext"];
                     HttpContext.Current = http.ApplicationInstance.Context;
                     RepositorySaveData r = new RepositorySaveData();
-                    DataCreateModel dataCreateModel = r.CreateModel(data.Result, Operation.Create);
+                    DataCreateModel dataCreateModel = r.CreateModel(data.Result.FormData,data.Result.FileData, Operation.Create);
                     DataViewModel model = dataCreateModel.Model;
                     
                     foreach (Field field in model.Form.Fields)

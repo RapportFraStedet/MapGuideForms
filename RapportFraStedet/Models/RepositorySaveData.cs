@@ -26,10 +26,10 @@ namespace RapportFraStedet.Models
         private DatabaseFormsEntities db = new DatabaseFormsEntities();
         private WebClient wc = new WebClient();
         Regex email = new Regex("^[a-z0-9A-Z_\\+-]+(\\.[a-z0-9A-Z\\+-]+)*@[a-z0-9A-Z-]+(\\.[a-z0-9A-Z-]+)*\\.([a-zA-Z]{2,4})$");
-        public DataCreateModel CreateModel(MultipartFormDataStreamProvider provider, Operation operation)
+        public DataCreateModel CreateModel(NameValueCollection formValues, object files, Operation operation)
         {
             CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-            NameValueCollection formValues = provider.FormData;
+            
             char[] trim = new char[] { '\"' };
             DataViewModel model = new DataViewModel();
             foreach (string key in formValues.Keys)
@@ -117,27 +117,82 @@ namespace RapportFraStedet.Models
                     if (field.FieldTypeId == 8) //Upload
                     {
                         bool fundet = false;
-                        foreach (MultipartFileData file in provider.FileData)
+                        if (files is System.Collections.ObjectModel.Collection<MultipartFileData>)
                         {
-
-                            string id = file.Headers.ContentDisposition.Name.Trim(trim);
-                            
-                            int id2 = 0;
-                            int.TryParse(id, out id2);
-                            if (field.FieldId == id2)
+                            foreach (MultipartFileData file in (System.Collections.ObjectModel.Collection<MultipartFileData>)files)
                             {
-                                fundet = true;
-                                string filename = file.Headers.ContentDisposition.FileName.Trim(trim);
+
+                                string id = file.Headers.ContentDisposition.Name.Trim(trim);
+
+                                int id2 = 0;
+                                int.TryParse(id, out id2);
+                                if (field.FieldId == id2)
+                                {
+
+                                    string filename = file.Headers.ContentDisposition.FileName.Trim(trim);
+                                    if (!string.IsNullOrEmpty(filename))
+                                    {
+                                        fundet = true;
+                                        string name = model.UniqueId + "-" + field.FieldId.ToString() + Path.GetExtension(filename).ToLower();
+                                        string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
+                                        field.Data = name;
+
+                                        int width = Properties.Settings.Default.MaxWidth;
+                                        int height = Properties.Settings.Default.MaxHeight;
+                                        System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(file.LocalFileName);
+                                        FullsizeImage.Save(filePath);
+                                        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                                        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+
+                                        if (FullsizeImage.Width <= width)
+                                        {
+                                            width = FullsizeImage.Width;
+                                        }
+
+
+                                        int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
+                                        if (NewHeight > height)
+                                        {
+                                            // Resize with height instead
+                                            width = FullsizeImage.Width * height / FullsizeImage.Height;
+                                            NewHeight = height;
+                                        }
+
+                                        System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
+
+                                        // Clear handle to original file so that we can overwrite it if necessary
+                                        FullsizeImage.Dispose();
+                                        string newName = "Thumb_" + Path.GetFileName(name);
+                                        string newFile = Path.Combine(model.Form.UploadPhysicalPath, newName);
+                                        // Save resized picture
+                                        NewImage.Save(newFile);
+                                        NewImage.Dispose();
+                                        File.Delete(file.LocalFileName);
+                                    }
+                                }
+                            }
+
+                        }
+                        else if (files is System.Web.HttpFileCollectionWrapper)
+                        {
+                            HttpFileCollectionWrapper files2 = ((System.Web.HttpFileCollectionWrapper)files);
+
+                            if (files2.AllKeys.Contains(field.FieldId.ToString()))
+                            {
+                                HttpPostedFileBase file = files2[field.FieldId.ToString()];
+                                string filename = file.FileName;
                                 if (!string.IsNullOrEmpty(filename))
                                 {
+                                    fundet = true;
                                     string name = model.UniqueId + "-" + field.FieldId.ToString() + Path.GetExtension(filename).ToLower();
                                     string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
                                     field.Data = name;
 
                                     int width = Properties.Settings.Default.MaxWidth;
                                     int height = Properties.Settings.Default.MaxHeight;
-                                    System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(file.LocalFileName);
-                                    FullsizeImage.Save(filePath);
+
+                                    file.SaveAs(filePath);
+                                    System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(filePath);
                                     FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
                                     FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
 
@@ -164,10 +219,8 @@ namespace RapportFraStedet.Models
                                     // Save resized picture
                                     NewImage.Save(newFile);
                                     NewImage.Dispose();
-                                    File.Delete(file.LocalFileName);
                                 }
                             }
-
                         }
                         if (!fundet && formValues[field.FieldId.ToString()] != null)
                         {
@@ -304,10 +357,6 @@ namespace RapportFraStedet.Models
                 Model = model,
             };
         }
-        public Data Add(Data data)
-        {
-            return data;
-        }
         public Data Get(View view)
         {
             Data data = new Data();
@@ -356,343 +405,6 @@ namespace RapportFraStedet.Models
             data.Felter = fields;
             return data;
 
-        }
-        public bool Insert(NameValueCollection formData)
-        {
-            Form form = null;
-            int j = 0;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-            List<string> columns = new List<string>();
-            List<string> values = new List<string>();
-            string projCode = "";
-            string position = "";
-            foreach (string key in formData.Keys)
-            {
-                switch (key)
-                {
-                    case "FormId":
-                        int id =0;
-                        if (int.TryParse(formData[key], out id))
-                        {
-                            DatabaseFormsEntities db = new DatabaseFormsEntities();
-                            form = db.Forms.SingleOrDefault(m => m.FormId == id);
-                        }
-                        break;
-                    case "projCode":
-                        projCode = formData[key];
-                        break;
-                    case "position":
-                        position = formData[key];
-                        break;
-                    case "UserId":
-                        columns.Add("UserId");
-                        values.Add("'" + formData[key] + "'");
-                        break;
-                    default:
-                        foreach (Field field in form.Fields)
-                        {
-                            if (!String.IsNullOrEmpty(field.FieldColumn) && formData[key] == field.FieldId.ToString())
-                            {
-                                #region 8 Upload
-                                if (field.FieldTypeId == 8) //Upload
-                                {
-                                    string value = formData[key];
-                                }
-                                #endregion
-                                else if (field.FieldTypeId == 10)
-                                {
-                                    DateTime dt = DateTime.Now;
-                                    DateTime.TryParse(formData[key], culture, DateTimeStyles.AssumeLocal, out dt);
-                                    columns.Add(field.FieldColumn);
-                                    if (Properties.Settings.Default.ReverseDate)
-                                        values.Add(String.Format("'{0:dd-MM-yyyy HH:mm:ss}'", dt));
-                                    else
-                                        values.Add(String.Format("'{0:yyyy-MM-dd HH:mm:ss}'", dt));
-                                }
-                                else if (field.FieldTypeId == 6 || field.FieldTypeId == 13)
-                                {
-                                    string b = "0";
-                                    if (formData[key] != "false")
-                                        b = "1";
-                                    columns.Add(field.FieldColumn);
-                                    values.Add("'" + b + "'");
-                                }
-                                else
-                                {
-                                    columns.Add(field.FieldColumn);
-                                    values.Add("'" + formData[key] + "'");
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-            columns.Add("UniqueId");
-            string uniqueId = Guid.NewGuid().ToString();
-            values.Add("'"+uniqueId+"'");
-            columns.Add("Dato");
-            if (Properties.Settings.Default.ReverseDate)
-                values.Add(String.Format("'{0:dd-MM-yyyy HH:mm:ss}'", DateTime.Now));
-            else
-                values.Add(String.Format("'{0:yyyy-MM-dd HH:mm:ss}'",DateTime.Now));
-            string sql = "insert into "+form.ClassName+ "(";
-            foreach(string column in columns)
-            {
-                sql=sql+column+",";
-            }
-            sql = sql.TrimEnd(new char[]{','});
-            sql=sql+") values(";
-            foreach(string value in values)
-            {
-                sql=sql+value+",";
-            }
-            sql = sql.TrimEnd(new char[]{','});
-            sql = sql + ")";
-            SqlConnection con = new SqlConnection(form.ResourceName);
-            SqlCommand command = new SqlCommand(sql, con);
-            con.Open();
-            try
-            {
-                j = command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            { }
-            finally
-            {
-                con.Close();
-            }
-            if (j > 0)
-                return true;
-            else
-                return false;
-        }
-
-        public bool Insert(MultipartFormDataStreamProvider provider)
-        {
-            NumberFormatInfo number = new NumberFormatInfo();
-            number.NumberDecimalSeparator = ".";
-            number.NumberGroupSeparator = ",";
-            char[] trim = new char[] { '\"' };
-            string projCode = "";
-            string position = "";
-            double accuracy = 0;
-            string geometry = "";
-            int formId = 0;
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            foreach (string key in provider.FormData.Keys)
-            {
-                switch (key)
-                {
-                    case "FormId":
-                        int.TryParse(provider.FormData[key], out formId);
-                        break;
-                    case "ProjCode":
-                        projCode = provider.FormData[key];
-                        break;
-                    case "Position":
-                        position = provider.FormData[key];
-                        break;
-                    case "Accuracy":
-                        double.TryParse(provider.FormData[key], NumberStyles.Number, number, out accuracy);
-                        break;
-                    case "Geometry":
-                        geometry = provider.FormData[key];
-                        break;
-                    default:
-                        data.Add(key, provider.FormData[key]);
-                        break;
-                }
-            }
-            int j =0;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-            DatabaseFormsEntities db = new DatabaseFormsEntities();
-            Form form = db.Forms.SingleOrDefault(m=>m.FormId == formId);
-            List<string> columns = new List<string>();
-            List<string> values = new List<string>();
-            if (geometry != "" && projCode != "")
-            {
-                columns.Add("Geometri");
-                values.Add("geometry::STGeomFromText('" + geometry + "'," + projCode.Substring(5) + ")");
-            }
-            columns.Add("UniqueId");
-            string uniqueId = Guid.NewGuid().ToString();
-            values.Add("'"+uniqueId+"'");
-            columns.Add("Dato");
-            if (Properties.Settings.Default.ReverseDate)
-                values.Add(String.Format("'{0:dd-MM-yyyy HH:mm:ss}'", DateTime.Now));
-            else
-                values.Add(String.Format("'{0:yyyy-MM-dd HH:mm:ss}'",DateTime.Now));
-            if (data.ContainsKey("UserId"))
-            {
-                columns.Add("UserId");
-                values.Add("'"+data["UserId"]+"'");
-            }
-            foreach (Field field in form.Fields)
-            {
-                #region 8 Upload
-                if (field.FieldTypeId == 8) //Upload
-                {
-                    bool fundet = false;
-                    foreach (MultipartFileData file in provider.FileData)
-                    {
-
-                        string id = file.Headers.ContentDisposition.Name.Trim(trim);
-                        string filename = file.Headers.ContentDisposition.FileName.Trim(trim);
-                        int id2 = 0;
-                        int.TryParse(id, out id2);
-                        if (field.FieldId == id2)
-                        {
-                            fundet = true;
-                            string name = uniqueId + "-" + field.FieldId.ToString() + Path.GetExtension(filename).ToLower();
-                            string filePath = Path.Combine(form.UploadPhysicalPath, name);
-                            columns.Add(field.FieldColumn);
-                            values.Add("'" + name + "'");
-
-                            int width = Properties.Settings.Default.MaxWidth;
-                            int height = Properties.Settings.Default.MaxHeight;
-                            System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(file.LocalFileName);
-                            FullsizeImage.Save(filePath);
-                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-
-                            if (FullsizeImage.Width <= width)
-                            {
-                                width = FullsizeImage.Width;
-                            }
-
-
-                            int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
-                            if (NewHeight > height)
-                            {
-                                // Resize with height instead
-                                width = FullsizeImage.Width * height / FullsizeImage.Height;
-                                NewHeight = height;
-                            }
-
-                            System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
-
-                            // Clear handle to original file so that we can overwrite it if necessary
-                            FullsizeImage.Dispose();
-                            string newName = "Thumb_" + Path.GetFileName(name);
-                            string newFile = Path.Combine(form.UploadPhysicalPath, newName);
-                            // Save resized picture
-                            NewImage.Save(newFile);
-                            NewImage.Dispose();
-
-                        }
-
-                    }
-                    if (!fundet && data.ContainsKey(field.FieldId.ToString()))
-                    {
-                        string[] info = data[field.FieldId.ToString()].Split(new char[] { ';' });
-                        int index = info[1].IndexOf(",");
-                        string image = info[1].Substring(index + 1);
-                        string name = uniqueId + "-" + field.FieldId.ToString() + info[0].Replace("data:image/", ".");
-                        string filePath = Path.Combine(form.UploadPhysicalPath, name);
-                        using (var fs = new FileStream(filePath, FileMode.Create))
-                        {
-                            byte[] byteFromString;
-                            byteFromString = Convert.FromBase64String(image);
-                            fs.Write(byteFromString, 0, byteFromString.Length);
-
-                        }
-                        try
-                        {
-                            int width = Properties.Settings.Default.MaxWidth;
-                            int height = Properties.Settings.Default.MaxHeight;
-                            System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(filePath);
-
-                            // Prevent using images internal thumbnail
-                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-
-                            if (FullsizeImage.Width <= width)
-                            {
-                                width = FullsizeImage.Width;
-                            }
-
-
-                            int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
-                            if (NewHeight > height)
-                            {
-                                // Resize with height instead
-                                width = FullsizeImage.Width * height / FullsizeImage.Height;
-                                NewHeight = height;
-                            }
-
-                            System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
-
-                            // Clear handle to original file so that we can overwrite it if necessary
-                            FullsizeImage.Dispose();
-                            string newName = "Thumb_" + Path.GetFileName(name);
-                            string newFile = Path.Combine(form.UploadPhysicalPath, newName);
-                            // Save resized picture
-                            NewImage.Save(newFile);
-                            NewImage.Dispose();
-                        }
-                        catch
-                        { }
-                    }
-                }
-                #endregion
-                else if (!String.IsNullOrEmpty(field.FieldColumn) && data.ContainsKey(field.FieldId.ToString()))
-                {
-
-                    if (field.FieldTypeId == 10)
-                    {
-                        DateTime dt = DateTime.Now;
-                        DateTime.TryParse(data[field.FieldId.ToString()], culture, DateTimeStyles.AssumeLocal, out dt);
-                        columns.Add(field.FieldColumn);
-                        if (Properties.Settings.Default.ReverseDate)
-                            values.Add(String.Format("'{0:dd-MM-yyyy HH:mm:ss}'", dt));
-                        else
-                            values.Add(String.Format("'{0:yyyy-MM-dd HH:mm:ss}'", dt));
-                    }
-                    else if (field.FieldTypeId == 6 || field.FieldTypeId == 13)
-                    {
-                        string b = "0";
-                        if (data[field.FieldId.ToString()] != "false")
-                            b = "1";
-                        columns.Add(field.FieldColumn);
-                        values.Add("'" + b + "'");
-                    }
-                    else
-                    {
-                        columns.Add(field.FieldColumn);
-                        values.Add("'" + data[field.FieldId.ToString()] + "'");
-                    }
-                }
-            }
-            string sql = "insert into "+form.ClassName+ "(";
-            foreach(string column in columns)
-            {
-                sql=sql+column+",";
-            }
-            sql = sql.TrimEnd(new char[]{','});
-            sql=sql+") values(";
-            foreach(string value in values)
-            {
-                sql=sql+value+",";
-            }
-            sql = sql.TrimEnd(new char[]{','});
-            sql = sql + ")";
-            SqlConnection con = new SqlConnection(form.ResourceName);
-            SqlCommand command = new SqlCommand(sql, con);
-            con.Open();
-            try
-            {
-                j = command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            { }
-            finally
-            {
-                con.Close();
-            }
-            if (j > 0)
-                return true;
-            else
-                return false;
         }
     }
 }

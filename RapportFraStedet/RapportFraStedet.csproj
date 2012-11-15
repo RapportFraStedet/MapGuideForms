@@ -151,6 +151,7 @@
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\FormsNewController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\GuidApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KommuneController.cs" />
     <Compile Include="Controllers\MatrikelController.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Controllers\SqlController.cs" />
     <Compile Include="Controllers\SelectionsController.cs" />
     <Compile Include="Controllers\TemaController.cs" />
+    <Compile Include="Controllers\UploadApiController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

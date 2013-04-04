@@ -1,0 +1,29 @@
+﻿@model RapportFraStedet.Models.Permission
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Permission</legend>
+
+    <div class="display-label">Field</div>
+    <div class="display-field">@Model.Field.Name</div>
+
+    <div class="display-label">View</div>
+    <div class="display-field">@Model.View.Name</div>
+
+    <div class="display-label">PermissionType</div>
+    <div class="display-field">@Model.PermissionType.Name</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index", new { id = Model.ViewId })
+    </p>
+}
+
+

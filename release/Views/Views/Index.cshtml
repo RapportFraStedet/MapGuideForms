@@ -1,0 +1,55 @@
+﻿@model IEnumerable<RapportFraStedet.Models.View>
+
+@{
+    ViewBag.Title = "Views";
+}
+
+<h2>@ViewBag.Group.Name</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.Group.GroupId})
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            # Permissions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ViewId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ViewId })|
+            @Html.ActionLink("Permissions", "Index","Permissions", new { id=item.ViewId },null)
+        </td>
+        <td>
+            @item.ViewId
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.ViewType.Name
+        </td>
+        <td>
+            @item.Permissions.Count
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to Groups", "Index", "Groups", new { id = ViewBag.Group.GroupId }, null)
+</div>

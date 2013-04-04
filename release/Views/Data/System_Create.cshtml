@@ -1,0 +1,107 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@{
+    RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+    RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+    RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+}
+
+@section menu{
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
+    </ul>
+}
+           
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (parent.Fusion) {
+            parent.Fusion.getWidgetById("RapportFraStedet").setTools();
+        }
+        $("#View_Group_DefaultFormId").change(function () {
+            $("#View_Group_DefaultFormId option:selected").each(function () {
+                if($(this)[0].value=="")
+                {
+                $('#Fields').html("");
+                }
+                else
+                {
+                $.ajax({
+                    url: "@Url.Content("~/Data.aspx/Fields/")" + @Model.View.ViewId + "?formId=" + $(this)[0].value,
+                    success: function (data) {
+                        $('#Fields').html(data);
+                        if (parent.Fusion) {
+                            parent.Fusion.getWidgetById("RapportFraStedet").setTools();
+                            parent.Fusion.getWidgetById("RapportFraStedet").clearMarker();
+                            parent.Fusion.getWidgetById("RapportFraStedet").removeAllFeatures();
+                        }
+                    }
+                });
+                }
+            });
+        });
+        $(".datepick").each(function () {
+            $(this).datepicker($.datepicker.regional['da']);
+        });
+    });
+</script>
+
+@using (Html.BeginForm("Create", "Data", new { id = Model.View.ViewId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (Model.View.Group.Forms.Count > 1)
+    {
+        ViewBag.Title = Model.View.Group.Name;
+    
+    <div class="editor-label">
+        Vælg indberetning:
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.View.Group.DefaultFormId, new SelectList(Model.View.Group.Forms, "FormId", "Name"), "-- Vælg --")
+        @Html.ValidationMessageFor(model => model.View.Group.DefaultFormId)
+    </div>
+    }
+    else
+    {
+        if (Model.Form == null)
+        {
+            ViewBag.Title = Model.Form.Name;
+        }
+        else
+        {
+            ViewBag.Title = Model.View.Group.Name;
+
+        }
+    }
+
+    <div id="Fields">
+        @Html.Partial("System_Fields", Model)
+    </div>
+}
+<p>
+    @{
+        RapportFraStedet.Models.View list = null;
+        try
+        {
+            list = Model.View.Group.Views.Single(m => m.ViewTypeId == 5);
+        }
+        catch { }
+        if (list != null)
+        {
+        @Html.ActionLink("Tilbage", "Index", new { id = list.ViewId, formId = Model.Form.FormId })
+        }
+    }
+</p>

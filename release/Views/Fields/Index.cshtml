@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RapportFraStedet.Models.Field>
+
+@{
+    ViewBag.Title = "Fields";
+}
+
+<h2>Fields</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.FormId })
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            FieldType
+        </th>
+        <th>
+            FieldOrder
+        </th>
+        <th>
+            Required
+        </th>
+        <th>
+            Data
+        </th>
+        <th>
+            FieldColumn
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.FieldId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.FieldId })
+            @if(item.FieldTypeId==3||item.FieldTypeId==4)
+            {
+                @Html.Encode(" | ")
+                @Html.ActionLink("Selections", "Index", "Selections", new { id = item.FieldId }, null)
+            }
+        </td>
+        <td>
+            @item.FieldId
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.FieldType.Name
+        </td>
+        <td>
+            @item.FieldOrder
+        </td>
+        <td>
+            @item.Required
+        </td>
+        <td>
+            @item.Data
+        </td>
+        <td>
+            @item.FieldColumn
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to Forms", "Index", "Forms")
+</div>

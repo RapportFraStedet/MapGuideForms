@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="http://kortforsyningen.kms.dk/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://kortforsyningen.kms.dk/" targetNamespace="http://kortforsyningen.kms.dk/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://kortforsyningen.kms.dk/">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="PointVO">
+        <xsd:sequence>
+          <xsd:element name="SRS" nillable="true" type="xsd:string" />
+          <xsd:element name="x" nillable="true" type="xsd:decimal" />
+          <xsd:element name="y" nillable="true" type="xsd:decimal" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="BoundingBoxVO">
+        <xsd:sequence>
+          <xsd:element name="point1" nillable="true" type="impl:PointVO" />
+          <xsd:element name="point2" nillable="true" type="impl:PointVO" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="StreetVO">
+        <xsd:sequence>
+          <xsd:element name="districtSubDivisionIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="postCodeIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetCode" nillable="true" type="xsd:string" />
+          <xsd:element name="streetLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="streetName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfStreetVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:StreetVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="DistrictVO">
+        <xsd:sequence>
+          <xsd:element name="districtLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="districtName" nillable="true" type="xsd:string" />
+          <xsd:element name="postCodeIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfDistrictVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:DistrictVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressAccessVO">
+        <xsd:sequence>
+          <xsd:element name="addressAccessLocation" nillable="true" type="impl:PointVO" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="streetBuildingIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddressAccessVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:AddressAccessVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressSpecificVO">
+        <xsd:sequence>
+          <xsd:element name="floorIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="streetBuildingIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetCode" nillable="true" type="xsd:string" />
+          <xsd:element name="suiteIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddressSpecificVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:AddressSpecificVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOf_xsd_string">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="xsd:string[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfPointVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:PointVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressPostalVO">
+        <xsd:sequence>
+          <xsd:element name="districtName" nillable="true" type="xsd:string" />
+          <xsd:element name="districtSubDivisionIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="floorIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="postCodeIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetBuildingIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetName" nillable="true" type="xsd:string" />
+          <xsd:element name="suiteIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddressPostalVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:AddressPostalVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressVO">
+        <xsd:sequence>
+          <xsd:element name="districtName" nillable="true" type="xsd:string" />
+          <xsd:element name="districtSubDivisionIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="postCodeIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetBuildingIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DistanceVO">
+        <xsd:sequence>
+          <xsd:element name="distance" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="NearestAddressVO">
+        <xsd:sequence>
+          <xsd:element name="address" nillable="true" type="impl:AddressVO" />
+          <xsd:element name="addressDistance" nillable="true" type="impl:DistanceVO" />
+          <xsd:element name="addressLocation" nillable="true" type="impl:PointVO" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfNearestAddressVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:NearestAddressVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressPostalExtendedVO">
+        <xsd:sequence>
+          <xsd:element name="addressAccessLocation" nillable="true" type="impl:PointVO" />
+          <xsd:element name="addressPostal" nillable="true" type="impl:AddressPostalVO" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddressPostalExtendedVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:AddressPostalExtendedVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="CadastralDistrictVO">
+        <xsd:sequence>
+          <xsd:element name="cadastralDistrictIdentifier" type="xsd:int" />
+          <xsd:element name="cadastralDistrictName" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfCadastralDistrictVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:CadastralDistrictVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRLandParcelIdentificationStructure">
+        <xsd:sequence>
+          <xsd:element name="cadastralDistrictIdentifier" type="xsd:int" />
+          <xsd:element name="cadastralDistrictName" nillable="true" type="xsd:string" />
+          <xsd:element name="landParcelIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRLandParcelIdentificationStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRLandParcelIdentificationStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRCoastProtectionZoneStructure">
+        <xsd:sequence>
+          <xsd:element name="coastalProtectionAreaMeasure" nillable="true" type="xsd:decimal" />
+          <xsd:element name="coastalProtectionExtentionTypeText" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRCoastProtectionZoneStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRCoastProtectionZoneStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRDuneProtectionZoneStructure">
+        <xsd:sequence>
+          <xsd:element name="duneProtectionAreaMeasure" nillable="true" type="xsd:decimal" />
+          <xsd:element name="duneProtectionExtentionTypeText" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRDuneProtectionZoneStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRDuneProtectionZoneStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRForestStormDamageStructure">
+        <xsd:sequence>
+          <xsd:element name="forestStormDamageCaseFileIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="forestStormDamageEndDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="forestStormDamageExtentionTypeText" nillable="true" type="xsd:string" />
+          <xsd:element name="forestStormDamagePayDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="forestStormDamageRegistrationCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRForestStormDamageStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRForestStormDamageStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRJointForestRegistrationStructure">
+        <xsd:sequence>
+          <xsd:element name="jointForestExtentionTypeText" nillable="true" type="xsd:string" />
+          <xsd:element name="jointForestRegistrationIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRJointForestRegistrationStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRJointForestRegistrationStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRLandParcelMeasureStructure">
+        <xsd:sequence>
+          <xsd:element name="KMSCaseFileIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="KMSPaperCaseFileIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="commonLandTypeIndicator" type="xsd:boolean" />
+          <xsd:element name="getRegistrationDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="jurisdictionCode" nillable="true" type="xsd:string" />
+          <xsd:element name="landParcelAreaCalculationMethodCode" nillable="true" type="xsd:string" />
+          <xsd:element name="landParcelNoteTextArray" nillable="true" type="impl:ArrayOf_xsd_string" />
+          <xsd:element name="landParcelRegistrationAreaMeasure" nillable="true" type="xsd:decimal" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="originalLandParcelIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="parishCode" nillable="true" type="xsd:string" />
+          <xsd:element name="regionCode" nillable="true" type="xsd:string" />
+          <xsd:element name="roadAreaCalculationMethodCode" nillable="true" type="xsd:string" />
+          <xsd:element name="roadAreaMeasure" nillable="true" type="xsd:decimal" />
+          <xsd:element name="waterAreaCalculationMethodCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MATRLandPropertyStructure">
+        <xsd:sequence>
+          <xsd:element name="KMSCaseFileIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="KMSPaperCaseFileIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="agriculturalNotationTypeText" nillable="true" type="xsd:string" />
+          <xsd:element name="landPropertyIdentifier" type="xsd:int" />
+          <xsd:element name="landPropertyRegistrationTypeText" nillable="true" type="xsd:string" />
+          <xsd:element name="registrationDate" nillable="true" type="xsd:dateTime" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRLandPropertyStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRLandPropertyStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRProtectedForestZoneStructure">
+        <xsd:sequence>
+          <xsd:element name="protectedForestAreaMeasure" nillable="true" type="xsd:decimal" />
+          <xsd:element name="protectedForestExtentionTypeText" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRProtectedForestZoneStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRProtectedForestZoneStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRSoilPollutionStructure">
+        <xsd:sequence>
+          <xsd:element name="soilPollutionExtentionTypeText" nillable="true" type="xsd:string" />
+          <xsd:element name="soilPollutionMappingIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="soilPollutionResidenceDeclarationCode" nillable="true" type="xsd:string" />
+          <xsd:element name="soilPollutionTypeCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMATRSoilPollutionStructure">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MATRSoilPollutionStructure[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="MATRLandParcelStructure">
+        <xsd:sequence>
+          <xsd:element name="MATRCoastProtectionZoneStructure" nillable="true" type="impl:ArrayOfMATRCoastProtectionZoneStructure" />
+          <xsd:element name="MATRDuneProtectionZoneStructure" nillable="true" type="impl:ArrayOfMATRDuneProtectionZoneStructure" />
+          <xsd:element name="MATRForestStormDamageStructure" nillable="true" type="impl:ArrayOfMATRForestStormDamageStructure" />
+          <xsd:element name="MATRJointForestRegistrationStructure" nillable="true" type="impl:ArrayOfMATRJointForestRegistrationStructure" />
+          <xsd:element name="MATRLandParcelIdentificationStructure" nillable="true" type="impl:MATRLandParcelIdentificationStructure" />
+          <xsd:element name="MATRLandParcelInterestRegistrationStructure" nillable="true" type="impl:ArrayOf_xsd_string" />
+          <xsd:element name="MATRLandParcelMeasureStructure" nillable="true" type="impl:MATRLandParcelMeasureStructure" />
+          <xsd:element name="MATRLandPropertyStructure" nillable="true" type="impl:ArrayOfMATRLandPropertyStructure" />
+          <xsd:element name="MATRProtectedForestZoneStructure" nillable="true" type="impl:ArrayOfMATRProtectedForestZoneStructure" />
+          <xsd:element name="MATRSoilPollutionStructure" nillable="true" type="impl:ArrayOfMATRSoilPollutionStructure" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LandParcelStructureExtendedVO">
+        <xsd:sequence>
+          <xsd:element name="MATRLandParcelStructure" nillable="true" type="impl:MATRLandParcelStructure" />
+          <xsd:element name="landParcelLocation" nillable="true" type="impl:PointVO" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MunicipalityVO">
+        <xsd:sequence>
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="municipalityName" nillable="true" type="xsd:string" />
+          <xsd:element name="regionCode" nillable="true" type="xsd:string" />
+          <xsd:element name="regionName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMunicipalityVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:MunicipalityVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="PlaceVO">
+        <xsd:sequence>
+          <xsd:element name="SUAccepted" type="xsd:boolean" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityName" nillable="true" type="xsd:string" />
+          <xsd:element name="parishCode" nillable="true" type="xsd:string" />
+          <xsd:element name="parishName" nillable="true" type="xsd:string" />
+          <xsd:element name="placeCategory" nillable="true" type="xsd:string" />
+          <xsd:element name="placeLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="placeName" nillable="true" type="xsd:string" />
+          <xsd:element name="regionCode" nillable="true" type="xsd:string" />
+          <xsd:element name="regionName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfPlaceVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:PlaceVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ParishVO">
+        <xsd:sequence>
+          <xsd:element name="parishCode" nillable="true" type="xsd:string" />
+          <xsd:element name="parishLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="parishName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfParishVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:ParishVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="LandPropertyVO">
+        <xsd:sequence>
+          <xsd:element name="landParcelIdentification" nillable="true" type="impl:MATRLandParcelIdentificationStructure" />
+          <xsd:element name="landPropertyIdentifier" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfLandPropertyVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:LandPropertyVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="PlaceCategoryVO">
+        <xsd:sequence>
+          <xsd:element name="placeCategory" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfPlaceCategoryVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:PlaceCategoryVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AddressCompleteVO">
+        <xsd:sequence>
+          <xsd:element name="addressAccess" nillable="true" type="impl:AddressAccessVO" />
+          <xsd:element name="addressPostal" nillable="true" type="impl:AddressPostalVO" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddressCompleteVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:AddressCompleteVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="StreetWPVO">
+        <xsd:sequence>
+          <xsd:element name="districtSubDivisionIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="municipalityCode" nillable="true" type="xsd:string" />
+          <xsd:element name="postCodeIdentifier" nillable="true" type="xsd:string" />
+          <xsd:element name="streetCode" nillable="true" type="xsd:string" />
+          <xsd:element name="streetLocation" nillable="true" type="impl:BoundingBoxVO" />
+          <xsd:element name="streetName" nillable="true" type="xsd:string" />
+          <xsd:element name="streetPresentation1" nillable="true" type="xsd:string" />
+          <xsd:element name="streetPresentation2" nillable="true" type="xsd:string" />
+          <xsd:element name="streetPresentation3" nillable="true" type="xsd:string" />
+          <xsd:element name="streetPresentation4" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfStreetWPVO">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="impl:StreetWPVO[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getLandParcelIdentificationWithinPolygonResponse">
+    <wsdl:part name="getLandParcelIdentificationWithinPolygonReturn" type="impl:ArrayOfMATRLandParcelIdentificationStructure" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationInLandPropertyResponse">
+    <wsdl:part name="getLandParcelIdentificationInLandPropertyReturn" type="impl:ArrayOfMATRLandParcelIdentificationStructure" />
+  </wsdl:message>
+  <wsdl:message name="getLandPropertyByLandParcelResponse">
+    <wsdl:part name="getLandPropertyByLandParcelReturn" type="impl:ArrayOfLandPropertyVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressCompleteByAddressPostalResponse">
+    <wsdl:part name="getAddressCompleteByAddressPostalReturn" type="impl:ArrayOfAddressCompleteVO" />
+  </wsdl:message>
+  <wsdl:message name="getDistrictByPartialNameResponse">
+    <wsdl:part name="getDistrictByPartialNameReturn" type="impl:ArrayOfDistrictVO" />
+  </wsdl:message>
+  <wsdl:message name="getPlaceResponse">
+    <wsdl:part name="getPlaceReturn" type="impl:ArrayOfPlaceVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressAccessByStreetCodeResponse">
+    <wsdl:part name="getAddressAccessByStreetCodeReturn" type="impl:ArrayOfAddressAccessVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressPostalExtendedResponse">
+    <wsdl:part name="getAddressPostalExtendedReturn" type="impl:ArrayOfAddressPostalExtendedVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetWPByPartialNameRequest">
+    <wsdl:part name="partialStreetName" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getMunicipalityRequest">
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressCompleteByAddressPostalRequest">
+    <wsdl:part name="partialStreetName" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="postCodeIdentifier" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDistrictByPartialNameRequest">
+    <wsdl:part name="partialDistrictName" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationAtPositionResponse">
+    <wsdl:part name="getLandParcelIdentificationAtPositionReturn" type="impl:MATRLandParcelIdentificationStructure" />
+  </wsdl:message>
+  <wsdl:message name="getMultipleAddressPostalLocationRequest">
+    <wsdl:part name="streetNames" type="impl:ArrayOf_xsd_string" />
+    <wsdl:part name="streetBuildingIdentifiers" type="impl:ArrayOf_xsd_string" />
+    <wsdl:part name="districtSubDivisionIdentifiers" type="impl:ArrayOf_xsd_string" />
+    <wsdl:part name="postCodeIdentifiers" type="impl:ArrayOf_xsd_string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressPostalByPartialStreetNameRequest">
+    <wsdl:part name="partialStreetName" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="postCodeIdentifier" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictResponse">
+    <wsdl:part name="getCadastralDistrictReturn" type="impl:CadastralDistrictVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetWPInMunicipalityRequest">
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getDistrictByIdentifierRequest">
+    <wsdl:part name="postCodeIdentifier" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelStructureExtendedResponse">
+    <wsdl:part name="getLandParcelStructureExtendedReturn" type="impl:LandParcelStructureExtendedVO" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelStructureExtendedRequest">
+    <wsdl:part name="landParcelIdentifier" type="xsd:string" />
+    <wsdl:part name="cadastralDistrictIdentifier" type="xsd:int" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationInCadastralDistrictResponse">
+    <wsdl:part name="getLandParcelIdentificationInCadastralDistrictReturn" type="impl:ArrayOfMATRLandParcelIdentificationStructure" />
+  </wsdl:message>
+  <wsdl:message name="getAddressPostalByPartialStreetNameResponse">
+    <wsdl:part name="getAddressPostalByPartialStreetNameReturn" type="impl:ArrayOfAddressPostalVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsInMunicipalityResponse">
+    <wsdl:part name="getStreetsInMunicipalityReturn" type="impl:ArrayOfStreetVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressSpecificByAddressAccessResponse">
+    <wsdl:part name="getAddressSpecificByAddressAccessReturn" type="impl:ArrayOfAddressSpecificVO" />
+  </wsdl:message>
+  <wsdl:message name="getMunicipalityByPartialNameResponse">
+    <wsdl:part name="getMunicipalityByPartialNameReturn" type="impl:ArrayOfMunicipalityVO" />
+  </wsdl:message>
+  <wsdl:message name="getLandPropertyExtentByLandParcelRequest">
+    <wsdl:part name="landRegistryIdentifier" type="xsd:string" />
+    <wsdl:part name="cadastralDistrictIdentifier" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getParishByPartialNameRequest">
+    <wsdl:part name="partialParishName" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getParishByPartialNameResponse">
+    <wsdl:part name="getParishByPartialNameReturn" type="impl:ArrayOfParishVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetByPartialNameRequest">
+    <wsdl:part name="partialStreetName" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressAccessRequest">
+    <wsdl:part name="streetCode" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandPropertyByLandParcelRequest">
+    <wsdl:part name="landRegistryIdentifier" type="xsd:string" />
+    <wsdl:part name="cadastralDistrictIdentifier" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressAccessByStreetCodeRequest">
+    <wsdl:part name="streetCode" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressCompleteByAddressAccessResponse">
+    <wsdl:part name="getAddressCompleteByAddressAccessReturn" type="impl:ArrayOfAddressCompleteVO" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationInLandPropertyRequest">
+    <wsdl:part name="landPropertyIdentifier" type="xsd:int" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getMunicipalityResponse">
+    <wsdl:part name="getMunicipalityReturn" type="impl:MunicipalityVO" />
+  </wsdl:message>
+  <wsdl:message name="getPlaceRequest">
+    <wsdl:part name="partialPlaceName" type="xsd:string" />
+    <wsdl:part name="partialPlaceCategory" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="parishCode" type="xsd:string" />
+    <wsdl:part name="SUAccepted" type="xsd:boolean" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictByPartialNameRequest">
+    <wsdl:part name="partialCadastralDistrictName" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressPostalExtendedRequest">
+    <wsdl:part name="partialStreetName" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="postCodeIdentifier" type="xsd:string" />
+    <wsdl:part name="districtName" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetWPByPartialNameResponse">
+    <wsdl:part name="getStreetWPByPartialNameReturn" type="impl:ArrayOfStreetWPVO" />
+  </wsdl:message>
+  <wsdl:message name="getPlaceCategoriesRequest">
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationWithinPolygonRequest">
+    <wsdl:part name="points" type="impl:ArrayOfPointVO" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationAtPositionRequest">
+    <wsdl:part name="point" type="impl:PointVO" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictByPartialNameResponse">
+    <wsdl:part name="getCadastralDistrictByPartialNameReturn" type="impl:ArrayOfCadastralDistrictVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressCompleteByAddressAccessRequest">
+    <wsdl:part name="streetCode" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictInMunicipalityResponse">
+    <wsdl:part name="getCadastralDistrictInMunicipalityReturn" type="impl:ArrayOfCadastralDistrictVO" />
+  </wsdl:message>
+  <wsdl:message name="getPlaceCategoriesResponse">
+    <wsdl:part name="getPlaceCategoriesReturn" type="impl:ArrayOfPlaceCategoryVO" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictInMunicipalityRequest">
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationWithinBBoxRequest">
+    <wsdl:part name="bbox" type="impl:BoundingBoxVO" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationInCadastralDistrictRequest">
+    <wsdl:part name="cadastralDistrictIdentifier" type="xsd:int" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCadastralDistrictRequest">
+    <wsdl:part name="districtId" type="xsd:int" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getMunicipalityByPartialNameRequest">
+    <wsdl:part name="partialMunicipalityName" type="xsd:string" />
+    <wsdl:part name="countyCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAddressSpecificByAddressAccessRequest">
+    <wsdl:part name="streetCode" type="xsd:string" />
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="streetBuildingIdentifier" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandPropertyExtentByLandParcelResponse">
+    <wsdl:part name="getLandPropertyExtentByLandParcelReturn" type="impl:BoundingBoxVO" />
+  </wsdl:message>
+  <wsdl:message name="getAddressAccessResponse">
+    <wsdl:part name="getAddressAccessReturn" type="impl:AddressAccessVO" />
+  </wsdl:message>
+  <wsdl:message name="getMultipleAddressPostalLocationResponse">
+    <wsdl:part name="getMultipleAddressPostalLocationReturn" type="impl:ArrayOfPointVO" />
+  </wsdl:message>
+  <wsdl:message name="getNearestAddressResponse">
+    <wsdl:part name="getNearestAddressReturn" type="impl:ArrayOfNearestAddressVO" />
+  </wsdl:message>
+  <wsdl:message name="getNearestAddressRequest">
+    <wsdl:part name="point" type="impl:PointVO" />
+    <wsdl:part name="maxAddresses" type="xsd:int" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getLandParcelIdentificationWithinBBoxResponse">
+    <wsdl:part name="getLandParcelIdentificationWithinBBoxReturn" type="impl:ArrayOfMATRLandParcelIdentificationStructure" />
+  </wsdl:message>
+  <wsdl:message name="getStreetWPInMunicipalityResponse">
+    <wsdl:part name="getStreetWPInMunicipalityReturn" type="impl:ArrayOfStreetWPVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetByPartialNameResponse">
+    <wsdl:part name="getStreetByPartialNameReturn" type="impl:ArrayOfStreetVO" />
+  </wsdl:message>
+  <wsdl:message name="getDistrictByIdentifierResponse">
+    <wsdl:part name="getDistrictByIdentifierReturn" type="impl:ArrayOfDistrictVO" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsInMunicipalityRequest">
+    <wsdl:part name="municipalityCode" type="xsd:string" />
+    <wsdl:part name="spatialReferenceSystem" type="xsd:string" />
+    <wsdl:part name="login" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="IGeoKeysFacadeImpl">
+    <wsdl:operation name="getStreetByPartialName" parameterOrder="partialStreetName municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getStreetByPartialNameRequest" message="impl:getStreetByPartialNameRequest" />
+      <wsdl:output name="getStreetByPartialNameResponse" message="impl:getStreetByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDistrictByPartialName" parameterOrder="partialDistrictName spatialReferenceSystem login password">
+      <wsdl:input name="getDistrictByPartialNameRequest" message="impl:getDistrictByPartialNameRequest" />
+      <wsdl:output name="getDistrictByPartialNameResponse" message="impl:getDistrictByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressAccessByStreetCode" parameterOrder="streetCode municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getAddressAccessByStreetCodeRequest" message="impl:getAddressAccessByStreetCodeRequest" />
+      <wsdl:output name="getAddressAccessByStreetCodeResponse" message="impl:getAddressAccessByStreetCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressSpecificByAddressAccess" parameterOrder="streetCode municipalityCode streetBuildingIdentifier login password">
+      <wsdl:input name="getAddressSpecificByAddressAccessRequest" message="impl:getAddressSpecificByAddressAccessRequest" />
+      <wsdl:output name="getAddressSpecificByAddressAccessResponse" message="impl:getAddressSpecificByAddressAccessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMultipleAddressPostalLocation" parameterOrder="streetNames streetBuildingIdentifiers districtSubDivisionIdentifiers postCodeIdentifiers spatialReferenceSystem login password">
+      <wsdl:input name="getMultipleAddressPostalLocationRequest" message="impl:getMultipleAddressPostalLocationRequest" />
+      <wsdl:output name="getMultipleAddressPostalLocationResponse" message="impl:getMultipleAddressPostalLocationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressPostalByPartialStreetName" parameterOrder="partialStreetName streetBuildingIdentifier postCodeIdentifier login password">
+      <wsdl:input name="getAddressPostalByPartialStreetNameRequest" message="impl:getAddressPostalByPartialStreetNameRequest" />
+      <wsdl:output name="getAddressPostalByPartialStreetNameResponse" message="impl:getAddressPostalByPartialStreetNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNearestAddress" parameterOrder="point maxAddresses login password">
+      <wsdl:input name="getNearestAddressRequest" message="impl:getNearestAddressRequest" />
+      <wsdl:output name="getNearestAddressResponse" message="impl:getNearestAddressResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressPostalExtended" parameterOrder="partialStreetName streetBuildingIdentifier postCodeIdentifier districtName spatialReferenceSystem login password">
+      <wsdl:input name="getAddressPostalExtendedRequest" message="impl:getAddressPostalExtendedRequest" />
+      <wsdl:output name="getAddressPostalExtendedResponse" message="impl:getAddressPostalExtendedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrictInMunicipality" parameterOrder="municipalityCode login password">
+      <wsdl:input name="getCadastralDistrictInMunicipalityRequest" message="impl:getCadastralDistrictInMunicipalityRequest" />
+      <wsdl:output name="getCadastralDistrictInMunicipalityResponse" message="impl:getCadastralDistrictInMunicipalityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrictByPartialName" parameterOrder="partialCadastralDistrictName login password">
+      <wsdl:input name="getCadastralDistrictByPartialNameRequest" message="impl:getCadastralDistrictByPartialNameRequest" />
+      <wsdl:output name="getCadastralDistrictByPartialNameResponse" message="impl:getCadastralDistrictByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationInCadastralDistrict" parameterOrder="cadastralDistrictIdentifier login password">
+      <wsdl:input name="getLandParcelIdentificationInCadastralDistrictRequest" message="impl:getLandParcelIdentificationInCadastralDistrictRequest" />
+      <wsdl:output name="getLandParcelIdentificationInCadastralDistrictResponse" message="impl:getLandParcelIdentificationInCadastralDistrictResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelStructureExtended" parameterOrder="landParcelIdentifier cadastralDistrictIdentifier spatialReferenceSystem login password">
+      <wsdl:input name="getLandParcelStructureExtendedRequest" message="impl:getLandParcelStructureExtendedRequest" />
+      <wsdl:output name="getLandParcelStructureExtendedResponse" message="impl:getLandParcelStructureExtendedResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMunicipalityByPartialName" parameterOrder="partialMunicipalityName countyCode spatialReferenceSystem login password">
+      <wsdl:input name="getMunicipalityByPartialNameRequest" message="impl:getMunicipalityByPartialNameRequest" />
+      <wsdl:output name="getMunicipalityByPartialNameResponse" message="impl:getMunicipalityByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlace" parameterOrder="partialPlaceName partialPlaceCategory municipalityCode parishCode SUAccepted spatialReferenceSystem login password">
+      <wsdl:input name="getPlaceRequest" message="impl:getPlaceRequest" />
+      <wsdl:output name="getPlaceResponse" message="impl:getPlaceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getParishByPartialName" parameterOrder="partialParishName spatialReferenceSystem login password">
+      <wsdl:input name="getParishByPartialNameRequest" message="impl:getParishByPartialNameRequest" />
+      <wsdl:output name="getParishByPartialNameResponse" message="impl:getParishByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationWithinBBox" parameterOrder="bbox login password">
+      <wsdl:input name="getLandParcelIdentificationWithinBBoxRequest" message="impl:getLandParcelIdentificationWithinBBoxRequest" />
+      <wsdl:output name="getLandParcelIdentificationWithinBBoxResponse" message="impl:getLandParcelIdentificationWithinBBoxResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandPropertyByLandParcel" parameterOrder="landRegistryIdentifier cadastralDistrictIdentifier login password">
+      <wsdl:input name="getLandPropertyByLandParcelRequest" message="impl:getLandPropertyByLandParcelRequest" />
+      <wsdl:output name="getLandPropertyByLandParcelResponse" message="impl:getLandPropertyByLandParcelResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandPropertyExtentByLandParcel" parameterOrder="landRegistryIdentifier cadastralDistrictIdentifier spatialReferenceSystem login password">
+      <wsdl:input name="getLandPropertyExtentByLandParcelRequest" message="impl:getLandPropertyExtentByLandParcelRequest" />
+      <wsdl:output name="getLandPropertyExtentByLandParcelResponse" message="impl:getLandPropertyExtentByLandParcelResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetsInMunicipality" parameterOrder="municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getStreetsInMunicipalityRequest" message="impl:getStreetsInMunicipalityRequest" />
+      <wsdl:output name="getStreetsInMunicipalityResponse" message="impl:getStreetsInMunicipalityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressAccess" parameterOrder="streetCode municipalityCode streetBuildingIdentifier spatialReferenceSystem login password">
+      <wsdl:input name="getAddressAccessRequest" message="impl:getAddressAccessRequest" />
+      <wsdl:output name="getAddressAccessResponse" message="impl:getAddressAccessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlaceCategories">
+      <wsdl:input name="getPlaceCategoriesRequest" message="impl:getPlaceCategoriesRequest" />
+      <wsdl:output name="getPlaceCategoriesResponse" message="impl:getPlaceCategoriesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressCompleteByAddressPostal" parameterOrder="partialStreetName streetBuildingIdentifier postCodeIdentifier spatialReferenceSystem login password">
+      <wsdl:input name="getAddressCompleteByAddressPostalRequest" message="impl:getAddressCompleteByAddressPostalRequest" />
+      <wsdl:output name="getAddressCompleteByAddressPostalResponse" message="impl:getAddressCompleteByAddressPostalResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAddressCompleteByAddressAccess" parameterOrder="streetCode streetBuildingIdentifier municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getAddressCompleteByAddressAccessRequest" message="impl:getAddressCompleteByAddressAccessRequest" />
+      <wsdl:output name="getAddressCompleteByAddressAccessResponse" message="impl:getAddressCompleteByAddressAccessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDistrictByIdentifier" parameterOrder="postCodeIdentifier spatialReferenceSystem login password">
+      <wsdl:input name="getDistrictByIdentifierRequest" message="impl:getDistrictByIdentifierRequest" />
+      <wsdl:output name="getDistrictByIdentifierResponse" message="impl:getDistrictByIdentifierResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetWPByPartialName" parameterOrder="partialStreetName municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getStreetWPByPartialNameRequest" message="impl:getStreetWPByPartialNameRequest" />
+      <wsdl:output name="getStreetWPByPartialNameResponse" message="impl:getStreetWPByPartialNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetWPInMunicipality" parameterOrder="municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getStreetWPInMunicipalityRequest" message="impl:getStreetWPInMunicipalityRequest" />
+      <wsdl:output name="getStreetWPInMunicipalityResponse" message="impl:getStreetWPInMunicipalityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationAtPosition" parameterOrder="point login password">
+      <wsdl:input name="getLandParcelIdentificationAtPositionRequest" message="impl:getLandParcelIdentificationAtPositionRequest" />
+      <wsdl:output name="getLandParcelIdentificationAtPositionResponse" message="impl:getLandParcelIdentificationAtPositionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationWithinPolygon" parameterOrder="points login password">
+      <wsdl:input name="getLandParcelIdentificationWithinPolygonRequest" message="impl:getLandParcelIdentificationWithinPolygonRequest" />
+      <wsdl:output name="getLandParcelIdentificationWithinPolygonResponse" message="impl:getLandParcelIdentificationWithinPolygonResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrict" parameterOrder="districtId login password">
+      <wsdl:input name="getCadastralDistrictRequest" message="impl:getCadastralDistrictRequest" />
+      <wsdl:output name="getCadastralDistrictResponse" message="impl:getCadastralDistrictResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMunicipality" parameterOrder="municipalityCode spatialReferenceSystem login password">
+      <wsdl:input name="getMunicipalityRequest" message="impl:getMunicipalityRequest" />
+      <wsdl:output name="getMunicipalityResponse" message="impl:getMunicipalityResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationInLandProperty" parameterOrder="landPropertyIdentifier login password">
+      <wsdl:input name="getLandParcelIdentificationInLandPropertyRequest" message="impl:getLandParcelIdentificationInLandPropertyRequest" />
+      <wsdl:output name="getLandParcelIdentificationInLandPropertyResponse" message="impl:getLandParcelIdentificationInLandPropertyResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="geokeysSoapBinding" type="impl:IGeoKeysFacadeImpl">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getStreetByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getStreetByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getStreetByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDistrictByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDistrictByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDistrictByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressAccessByStreetCode">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressAccessByStreetCodeRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressAccessByStreetCodeResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressSpecificByAddressAccess">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressSpecificByAddressAccessRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressSpecificByAddressAccessResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMultipleAddressPostalLocation">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMultipleAddressPostalLocationRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getMultipleAddressPostalLocationResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressPostalByPartialStreetName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressPostalByPartialStreetNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressPostalByPartialStreetNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNearestAddress">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getNearestAddressRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getNearestAddressResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressPostalExtended">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressPostalExtendedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressPostalExtendedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrictInMunicipality">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCadastralDistrictInMunicipalityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getCadastralDistrictInMunicipalityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrictByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCadastralDistrictByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getCadastralDistrictByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationInCadastralDistrict">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelIdentificationInCadastralDistrictRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelIdentificationInCadastralDistrictResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelStructureExtended">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelStructureExtendedRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelStructureExtendedResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMunicipalityByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMunicipalityByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getMunicipalityByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlace">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getPlaceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getPlaceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParishByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getParishByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getParishByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationWithinBBox">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelIdentificationWithinBBoxRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelIdentificationWithinBBoxResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandPropertyByLandParcel">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandPropertyByLandParcelRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandPropertyByLandParcelResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandPropertyExtentByLandParcel">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandPropertyExtentByLandParcelRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandPropertyExtentByLandParcelResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetsInMunicipality">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getStreetsInMunicipalityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getStreetsInMunicipalityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressAccess">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressAccessRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressAccessResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlaceCategories">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getPlaceCategoriesRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getPlaceCategoriesResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressCompleteByAddressPostal">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressCompleteByAddressPostalRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressCompleteByAddressPostalResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddressCompleteByAddressAccess">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAddressCompleteByAddressAccessRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getAddressCompleteByAddressAccessResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDistrictByIdentifier">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDistrictByIdentifierRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getDistrictByIdentifierResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetWPByPartialName">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getStreetWPByPartialNameRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getStreetWPByPartialNameResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetWPInMunicipality">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getStreetWPInMunicipalityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getStreetWPInMunicipalityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationAtPosition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelIdentificationAtPositionRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelIdentificationAtPositionResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationWithinPolygon">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelIdentificationWithinPolygonRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelIdentificationWithinPolygonResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCadastralDistrict">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCadastralDistrictRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getCadastralDistrictResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMunicipality">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMunicipalityRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getMunicipalityResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLandParcelIdentificationInLandProperty">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLandParcelIdentificationInLandPropertyRequest">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getLandParcelIdentificationInLandPropertyResponse">
+        <wsdlsoap:body use="encoded" namespace="http://kortforsyningen.kms.dk/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IGeoKeysFacadeService">
+    <wsdl:port name="geokeys" binding="impl:geokeysSoapBinding">
+      <wsdlsoap:address location="http://kortforsyningen.kms.dk/geokeys_v4?service=GEO&amp;request=SOAP" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,44 @@
+﻿@model RapportFraStedet.Models.View
+@{
+    ViewBag.Title = "Information";
+}
+@section menu{
+    @{
+        RapportFraStedet.Models.View create = Model.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
+        RapportFraStedet.Models.View listAll = Model.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
+        RapportFraStedet.Models.View listMy = Model.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+    }
+    <ul id="menu">
+        @if (create != null)
+        {
+            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
+        }
+
+        @if (listMy != null)
+        {
+            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
+        }
+        @if (listAll != null)
+        {
+            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
+        }
+        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.ViewId }, null)</li>
+    </ul>
+}
+
+<h2>Om Systemet</h2>
+<p>
+     RapportFraStedet er udviklet af Hvenegaard og Jens Bo Landinspektører A/S.
+</p>
+<fieldset>
+    <legend>Kontakt</legend>
+    <div class="editor-label">
+        Rune Tvilum
+    </div>
+    <div class="editor-label">
+        21 93 27 03
+    </div>
+    <div class="editor-label">
+        <a href="mailto:rtv@hvenegaard.dk">rtv@hvenegaard.dk</a>
+    </div>
+</fieldset>

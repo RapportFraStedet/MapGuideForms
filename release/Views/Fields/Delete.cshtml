@@ -1,0 +1,41 @@
+﻿@model RapportFraStedet.Models.Field
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Field</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">Data</div>
+    <div class="display-field">@Model.Data</div>
+
+    <div class="display-label">FormId</div>
+    <div class="display-field">@Model.FormId</div>
+
+    <div class="display-label">FieldTypeId</div>
+    <div class="display-field">@Model.FieldTypeId</div>
+
+    <div class="display-label">FieldOrder</div>
+    <div class="display-field">@Model.FieldOrder</div>
+
+    <div class="display-label">Required</div>
+    <div class="display-field">@Model.Required</div>
+
+    <div class="display-label">FieldColumn</div>
+    <div class="display-field">@Model.FieldColumn</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index", new { id = Model.FormId })
+    </p>
+}
+
+

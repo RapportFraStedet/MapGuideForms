@@ -1,0 +1,39 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addressId").CascadingDropDown("#streetId", "@Url.Content("~/Data.aspx/Addresses/")@ViewBag.ViewId",
+            {
+                promptText: "-- Vælg husnr. --",
+                postData: function () {
+                    var q = $.parseQuery();
+                    return { streetId: $("#streetId").val() };
+                }
+            });
+        $("#addressId").change(function () {
+            if ($(this).val() != '') {
+                var q = $.parseQuery();
+                var data = { streetId: $("#streetId").val(), name: $(this).val() }
+                $.ajax({
+                    url: "@Url.Content("~/Data.aspx/Address/")@ViewBag.ViewId",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        if(parent.Fusion)
+                        {
+                            parent.Fusion.getWidgetById("RapportFraStedet").pan(data);
+                        }
+                    }
+                });
+
+            }
+
+        });
+
+    });
+    </script>
+<div class="editor-field">
+    @Html.DropDownList("streetId", ViewBag.Streets as SelectList, "-- Vælg vej --")
+</div>
+<div class="editor-field">
+    <select id="addressId" name="addressId"></select>
+</div>

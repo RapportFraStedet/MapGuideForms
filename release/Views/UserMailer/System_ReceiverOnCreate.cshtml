@@ -1,0 +1,66 @@
+﻿@model RapportFraStedet.Models.DataViewModel
+@{
+    ViewBag.Title = Model.Form.Name+" "+ Model.ItemId;
+    ViewBag.Footer = Model.UniqueId;
+    Layout = Url.Content("~/Views/Shared/_Mail.cshtml");
+}
+
+<h2>@Model.View.Group.Name</h2>
+<p>
+    Tak for din indberetning om @Model.Form.Name.</p>
+<p>
+    Din indberetning er registreret med følgende id: <a href="http://mapguide/mapguide/fusion/templates/mapguide/Graveplan/index.html?id=@Model.View.ViewId&formId=@Model.Form.FormId&itemId=@Model.ItemId">@Model.ItemId</a></p>
+    
+<fieldset>
+    <legend>@Model.Form.Name</legend>
+    <table>
+        <tr>
+            <td>
+                Dato
+            </td>
+            <td>@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:d}", Model.Date)
+            </td>
+        </tr>
+        @foreach (var field in Model.Form.Fields.OrderBy(m=>m.FieldOrder))
+        {
+            //Permissions
+            RapportFraStedet.Models.Permission permission = Model.View.Permissions.FirstOrDefault(m => m.FieldId == field.FieldId);
+            //0 = Hidden
+            //1 = Read
+            //2 = Write
+            bool handled = false;
+            if (permission != null)
+            {
+                if (permission.PermissionTypeId == 0)
+                {
+                    handled = true;
+                }
+            }
+            if (!handled)
+            {
+
+            <tr>
+                <td>
+                    @field.Name
+                </td>
+                <td>
+                    @if (field.FieldTypeId == 8)
+                    {
+                        string data = field.Data;
+                        if (!String.IsNullOrEmpty(data))
+                        {
+                            string img = Model.Form.UploadVirtualPath + "/Thumb_" + data;
+                            string a = Model.Form.UploadVirtualPath + "/" + data; 
+                            <a href="@a" target="_blank"><img src="@img" /></a>
+                        }
+                    }
+                    else
+                    {
+                        @field.Data
+                    }
+                </td>
+            </tr>
+            }
+        }
+    </table>
+</fieldset>

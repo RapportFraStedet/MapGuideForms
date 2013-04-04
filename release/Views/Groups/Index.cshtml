@@ -1,0 +1,67 @@
+﻿@model IEnumerable<RapportFraStedet.Models.Group>
+@{
+    ViewBag.Title = "Groups";
+}
+<h2>
+    Groups</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+        </th>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Role
+        </th>
+        <th>
+            DefaultForm
+        </th>
+        <th>
+            # Forms
+        </th>
+        <th>
+            # Views
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.GroupId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GroupId }) |
+                @Html.ActionLink("Views", "Index", "Views", new { id = item.GroupId }, null)
+            </td>
+            <td>
+                @item.GroupId
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Role
+            </td>
+            <td>
+                @{
+                    RapportFraStedet.Models.Form defaultForm = item.Forms.SingleOrDefault(m => m.FormId == item.DefaultFormId);
+                    if (defaultForm != null)
+                    {
+                        @defaultForm.Name
+                    }
+                }
+            </td>
+            <td>
+                @item.Forms.Count
+            </td>
+            <td>
+                @item.Views.Count
+            </td>
+        </tr>
+    }
+</table>

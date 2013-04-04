@@ -201,8 +201,8 @@ namespace RapportFraStedet.Models
             foreach (Field field in form.Fields.Where(a => a.FieldColumn != null && !a.FieldColumn.Equals(String.Empty)).OrderBy(b => b.FieldOrder))
             {
                 Permission permission = view.Permissions.FirstOrDefault(a => a.FieldId == field.FieldId);
-                if (permission == null || permission.PermissionTypeId != 0)
-                {
+                //if (permission == null )//|| permission.PermissionTypeId != 0)
+                //{
                     columns.Add(field);
                     switch(field.FieldColumn.ToUpper())
                     {
@@ -235,7 +235,7 @@ namespace RapportFraStedet.Models
                             break;
                     }
                         
-                }
+                //}
 
             }
             if(!fUniqueId)

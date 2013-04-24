@@ -227,7 +227,7 @@ namespace RapportFraStedet.Models
                                 }
                             }
                         }
-                        if (!fundet && formValues[field.FieldId.ToString()] != null)
+                        if (!fundet && !string.IsNullOrEmpty(formValues[field.FieldId.ToString()]))
                         {
                             string[] info = formValues[field.FieldId.ToString()].Split(new char[] { ';' });
                             int index = info[1].IndexOf(",");

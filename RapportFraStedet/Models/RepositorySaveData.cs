@@ -125,50 +125,55 @@ namespace RapportFraStedet.Models
                                 string id = file.Headers.ContentDisposition.Name.Trim(trim);
 
                                 int id2 = 0;
-                                int.TryParse(id, out id2);
-                                if (field.FieldId == id2)
+                                if (int.TryParse(id, out id2))
                                 {
-
-                                    string filename = file.Headers.ContentDisposition.FileName.Trim(trim);
-                                    if (!string.IsNullOrEmpty(filename))
+                                    if (field.FieldId == id2)
                                     {
-                                        fundet = true;
-                                        string name = model.UniqueId + "-" + field.FieldId.ToString() + Path.GetExtension(filename).ToLower();
-                                        string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
-                                        field.Data = name;
 
-                                        int width = Properties.Settings.Default.MaxWidth;
-                                        int height = Properties.Settings.Default.MaxHeight;
-                                        System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(file.LocalFileName);
-                                        FullsizeImage.Save(filePath);
-                                        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-                                        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-
-                                        if (FullsizeImage.Width <= width)
+                                        string filename = file.Headers.ContentDisposition.FileName.Trim(trim);
+                                        if (!string.IsNullOrEmpty(filename))
                                         {
-                                            width = FullsizeImage.Width;
+                                            fundet = true;
+                                            string name = model.UniqueId + "-" + field.FieldId.ToString() + Path.GetExtension(filename).ToLower();
+                                            string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
+                                            field.Data = name;
+
+                                            int width = Properties.Settings.Default.MaxWidth;
+                                            int height = Properties.Settings.Default.MaxHeight;
+                                            System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(file.LocalFileName);
+                                            FullsizeImage.Save(filePath);
+                                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                                            FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+
+                                            if (FullsizeImage.Width <= width)
+                                            {
+                                                width = FullsizeImage.Width;
+                                            }
+
+
+                                            int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
+                                            if (NewHeight > height)
+                                            {
+                                                // Resize with height instead
+                                                width = FullsizeImage.Width * height / FullsizeImage.Height;
+                                                NewHeight = height;
+                                            }
+
+                                            System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
+
+                                            // Clear handle to original file so that we can overwrite it if necessary
+                                            FullsizeImage.Dispose();
+                                            string newName = "Thumb_" + Path.GetFileName(name);
+                                            string newFile = Path.Combine(model.Form.UploadPhysicalPath, newName);
+                                            // Save resized picture
+                                            NewImage.Save(newFile);
+                                            NewImage.Dispose();
+                                            File.Delete(file.LocalFileName);
                                         }
-
-
-                                        int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
-                                        if (NewHeight > height)
-                                        {
-                                            // Resize with height instead
-                                            width = FullsizeImage.Width * height / FullsizeImage.Height;
-                                            NewHeight = height;
-                                        }
-
-                                        System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
-
-                                        // Clear handle to original file so that we can overwrite it if necessary
-                                        FullsizeImage.Dispose();
-                                        string newName = "Thumb_" + Path.GetFileName(name);
-                                        string newFile = Path.Combine(model.Form.UploadPhysicalPath, newName);
-                                        // Save resized picture
-                                        NewImage.Save(newFile);
-                                        NewImage.Dispose();
-                                        File.Delete(file.LocalFileName);
                                     }
+                                }
+                                else {
+                                    File.Delete(file.LocalFileName);
                                 }
                             }
 

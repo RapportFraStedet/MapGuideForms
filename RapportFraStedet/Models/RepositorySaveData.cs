@@ -117,7 +117,7 @@ namespace RapportFraStedet.Models
                     if (field.FieldTypeId == 8) //Upload
                     {
                         bool fundet = false;
-                        if (files is System.Collections.ObjectModel.Collection<MultipartFileData>)
+                        if (files!=null && files is System.Collections.ObjectModel.Collection<MultipartFileData>)
                         {
                             foreach (MultipartFileData file in (System.Collections.ObjectModel.Collection<MultipartFileData>)files)
                             {
@@ -178,7 +178,7 @@ namespace RapportFraStedet.Models
                             }
 
                         }
-                        else if (files is System.Web.HttpFileCollectionWrapper)
+                        else if (files !=null && files is System.Web.HttpFileCollectionWrapper)
                         {
                             HttpFileCollectionWrapper files2 = ((System.Web.HttpFileCollectionWrapper)files);
 
@@ -233,6 +233,7 @@ namespace RapportFraStedet.Models
                             int index = info[1].IndexOf(",");
                             string image = info[1].Substring(index + 1);
                             string name = model.UniqueId + "-" + field.FieldId.ToString() + info[0].Replace("data:image/", ".");
+                            field.Data = name;
                             string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
                             using (var fs = new FileStream(filePath, FileMode.Create))
                             {

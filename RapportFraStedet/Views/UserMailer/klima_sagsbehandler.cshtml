@@ -1,0 +1,74 @@
+@model RapportFraStedet.Models.DataViewModel
+@{
+    ViewBag.Title = "Du har modtaget et høringssvar vedr. "+@Model.Form.Name;
+    ViewBag.Footer = Model.UniqueId;
+    Layout = Url.Content("~/Views/Shared/_Mail.cshtml");
+}
+   Du har modtaget et høringssvar vedr. @Model.Form.Name </p>
+<p>
+    En borger har lavet et høringssvar, der er registreret med følgende id: @Model.ItemId - <a href="http://kort.jammerbugt.dk/mapguide/fusion/templates/mapguide/RapportFraStedet/Sagsbehandler/index.html?ApplicationDefinition=Library://RapportFraStedet/ApplicationDefinitions/Klima_SB.ApplicationDefinition&id=101&formId=@Model.Form.FormId&itemId=@Model.ItemId">Klik her</a> for at se indberetningen.</p>
+    
+<fieldset>
+    <!--legend>@Model.Form.Name</legend-->
+    <table>
+        <tr>
+            <td>
+                Dato
+            </td>
+            <td>@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:d}", Model.Date)
+            </td>
+        </tr>
+        @foreach (var field in Model.Form.Fields.OrderBy(m=>m.FieldOrder))
+        {
+            //Permissions
+            RapportFraStedet.Models.Permission permission = Model.View.Permissions.FirstOrDefault(m => m.FieldId == field.FieldId);
+            //0 = Hidden
+            //1 = Read
+            //2 = Write
+            bool handled = false;
+            if (permission != null)
+            {
+                if (permission.PermissionTypeId == 0)
+                {
+                    handled = true;
+                }
+            }
+            if (!handled && (field.FieldTypeId <15 || field.FieldTypeId > 22) && field.FieldTypeId!=12)
+            {
+
+            <tr>
+                <td>
+                    @field.Name
+                </td>
+                <td>
+                    @if (field.FieldTypeId == 8)
+                    {
+                        string data = field.Data;
+                        if (!String.IsNullOrEmpty(data))
+                        {
+                            string img = Model.Form.UploadVirtualPath + "/Thumb_" + data;
+                            string a = Model.Form.UploadVirtualPath + "/" + data; 
+                            <a href="@a" target="_blank"><img src="@img" /></a>
+                        }
+                    }
+					else if (field.FieldTypeId == 6 || field.FieldTypeId == 12 || field.FieldTypeId == 13)
+                    {
+                        if (field.Data != "false" && field.Data != "False")
+                        {
+                            @Html.Encode("Ja")
+                        }
+                        else
+                        {
+                            @Html.Encode("Nej")
+                        }
+                    }
+                    else 
+                    {
+                        @field.Data
+                    }
+                </td>
+            </tr>
+            }
+        }
+    </table>
+</fieldset>

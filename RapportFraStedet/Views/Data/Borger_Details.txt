@@ -1,29 +1,12 @@
-﻿@model RapportFraStedet.Models.DataViewModel
+@model RapportFraStedet.Models.DataViewModel
 @{
     ViewBag.Title = Model.Form.Name;
     RapportFraStedet.Models.View create = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 1);
     RapportFraStedet.Models.View listAll = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 5);
     RapportFraStedet.Models.View listMy = Model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 6);
+	Layout =Url.Content("~/Views/Shared/_Indberetning_Borger.cshtml");
 }
 
-@section menu{
-    <ul id="menu">
-        @if (create != null)
-        {
-            <li>@Html.ActionLink("Ny", "Index", "Data", new { id = create.ViewId }, null)</li>
-        }
-
-        @if (listMy != null)
-        {
-            <li>@Html.ActionLink("Mine", "Index", "Data", new { id = listMy.ViewId }, null)</li>
-        }
-        @if (listAll != null)
-        {
-            <li>@Html.ActionLink("Alle", "Index", "Data", new { id = listAll.ViewId }, null)</li>
-        }
-        <li>@Html.ActionLink("Info", "About", "Data", new { id = Model.View.ViewId }, null)</li>
-    </ul>
-}
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -33,44 +16,14 @@
         }
     });
 </script>
-<h2>
-    Se</h2>
 <fieldset>
     @Html.HiddenFor(model => model.Form.SRS)
 
-    <legend>Data</legend>
+    <legend>De indberettede detaljer</legend>
     <table>
         <tr>
             <td>
-                UserId
-            </td>
-            <td>@Model.UserId
-            </td>
-        </tr>
-        <tr>
-            <td>
-                UserName
-            </td>
-            <td>@Model.UserName
-            </td>
-        </tr>
-        <tr>
-            <td>
-                UniqueId
-            </td>
-            <td>@Model.UniqueId
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Company
-            </td>
-            <td>@Model.Company
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Date
+                Dato
             </td>
             <td>@String.Format(new System.Globalization.CultureInfo("da-DK"), "{0:d}", Model.Date)
             </td>
@@ -108,10 +61,14 @@
             }
             if (!handled)
             {
-
+if(field.FieldTypeId==16)
+{
+@Html.Hidden("Geometri", field.Data)
+}
+else{
             <tr>
                 <td>
-                    @field.Name
+						@field.Name
                 </td>
                 <td>
                     @if (field.FieldTypeId == 8)
@@ -137,8 +94,7 @@
                     }
                     else if (field.FieldTypeId == 6 || field.FieldTypeId == 12 || field.FieldTypeId == 13)
                     {
-					 
-                        if (field.Data != "false" && field.Data != "False" && field.Data != "1")
+                        if (field.Data != "false" && field.Data != "False")
                         {
                             @Html.Encode("Ja")
                         }
@@ -147,11 +103,7 @@
                             @Html.Encode("Nej")
                         }
                     }
-                    else if (field.FieldTypeId == 16)
-                    {
-                        @field.Data
-                        @Html.Hidden("Geometri", field.Data)
-                    }
+                   
                     else if (field.FieldTypeId == 17)
                     {
                         @field.Data
@@ -169,6 +121,7 @@
                 </td>
             </tr>
             }
+			}
         }
     </table>
 </fieldset>

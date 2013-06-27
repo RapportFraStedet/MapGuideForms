@@ -556,6 +556,7 @@ namespace RapportFraStedet.Controllers
                 ItemId = postModel.ItemId,
                 UniqueId = postModel.UniqueId
             };
+            model = mapguide.Get(model);
             mapguide.Delete(model);
             List<DataEmailModel> emails = new List<DataEmailModel>();
             if (!String.IsNullOrEmpty(model.Form.Email)&&!String.IsNullOrEmpty(model.Form.ViewEmailToReceiverOnDelete))
@@ -576,7 +577,7 @@ namespace RapportFraStedet.Controllers
                             {
                                 if (!String.IsNullOrEmpty(operationField.Data))
                                 {
-                                    if (operationField.Data == "1")
+                                    if (operationField.Data == "1" || operationField.Data == "True")
                                     {
                                         emails.Add(new DataEmailModel { Email = field.Data, View = emailView });
                                     }
@@ -596,6 +597,12 @@ namespace RapportFraStedet.Controllers
                     }
                 }
             }
+            DataCreateModel dcm = new DataCreateModel()
+            {
+                Model = model,
+                Emails = emails
+            };
+            mapguide.SendEmails(dcm);
             Models.View endView = model.View.Group.Views.SingleOrDefault(m => m.ViewTypeId == 7);
             if (endView == null)
             {

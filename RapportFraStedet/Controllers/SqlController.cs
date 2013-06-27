@@ -9,9 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Configuration;
 using System.Web.Http;
 
@@ -19,7 +21,7 @@ namespace RapportFraStedet.Controllers
 {
     public class SqlController : ApiController
     {
-        public DataTable get(string q, string c)
+        public DataTable get(string q, string c, string l)
         {
             DataTable dt = new DataTable();
             System.Configuration.ConnectionStringSettings setting = WebConfigurationManager.ConnectionStrings[c];
@@ -31,6 +33,44 @@ namespace RapportFraStedet.Controllers
                     
                     da.Fill(dt);
                     
+
+                }
+            }
+            if (!string.IsNullOrEmpty(l))
+            {
+                StreamWriter log;
+                string root = HttpContext.Current.Server.MapPath("~/App_Data");
+                string file = Path.Combine(root, l);
+                if (!File.Exists(file))
+                {
+                    log = new StreamWriter(file);
+                }
+                else
+                {
+                    log = File.AppendText(file);
+                }
+
+                // Write to the file:
+                log.WriteLine(DateTime.Now);
+                log.WriteLine(q);
+
+                // Close the stream:
+                log.Close();
+            }
+            return dt;
+        }
+        public DataTable get(string q, string c)
+        {
+            DataTable dt = new DataTable();
+            System.Configuration.ConnectionStringSettings setting = WebConfigurationManager.ConnectionStrings[c];
+            if (setting != null)
+            {
+                using (SqlConnection con = new SqlConnection(setting.ConnectionString))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(q, con);
+
+                    da.Fill(dt);
+
 
                 }
             }

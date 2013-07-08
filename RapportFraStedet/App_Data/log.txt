@@ -18,3 +18,9 @@ Index was outside the bounds of the array.
 Index was outside the bounds of the array.
    at RapportFraStedet.Models.RepositorySaveData.CreateModel(NameValueCollection formValues, Object files, Operation operation) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Models\RepositorySaveData.cs:line 233
    at RapportFraStedet.Controllers.SaveFormsDataController.<>c__DisplayClass1.<PostFormData>b__0(Task`1 data) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\SaveFormsDataController.cs:line 65
+05-07-2013 12:52:01
+Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.IsMatch(String input)
+   at RapportFraStedet.Models.RepositorySaveData.CreateModel(NameValueCollection formValues, Object files, Operation operation) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Models\RepositorySaveData.cs:line 304
+   at RapportFraStedet.Controllers.SaveFormsDataController.<>c__DisplayClass1.<PostFormData>b__0(Task`1 data) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\SaveFormsDataController.cs:line 65

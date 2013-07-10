@@ -139,7 +139,7 @@
    break;
                 case 6: //CheckBox
     <div class="editor-field">
-        @Html.CheckBox(item.FieldId.ToString(), item.Data != "false" && field.Data != "False" && field.Data != "1")
+        @Html.CheckBox(item.FieldId.ToString(), item.Data != "false" && item.Data != "False" && item.Data != "1")
         @item.Name
         @Html.ValidationMessage(item.FieldId.ToString(), "*")
     </div>

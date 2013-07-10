@@ -105,6 +105,7 @@ namespace RapportFraStedet.Models
                 {
                     command.CommandText = command.CommandText + " WHERE UserId = '" + userId + "'";
                 }
+                command.CommandText += " order by dato desc";
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(dt);
             }

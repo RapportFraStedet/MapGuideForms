@@ -159,11 +159,13 @@
     <Compile Include="Controllers\PermissionsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SaveFormsDataController.cs" />
+    <Compile Include="Controllers\SaveFormsData2Controller.cs" />
     <Compile Include="Controllers\SqlController.cs" />
     <Compile Include="Controllers\SelectionsController.cs" />
     <Compile Include="Controllers\TemaController.cs" />
     <Compile Include="Controllers\UploadApiController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\Upload2Controller.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\ViewsController.cs" />

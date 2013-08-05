@@ -19,7 +19,7 @@ using System.Web.Http;
 
 namespace RapportFraStedet.Controllers
 {
-    public class SaveFormsDataController : ApiController
+    public class SaveFormsData2Controller : ApiController
     {
         [AcceptVerbs("OPTIONS")]
         public HttpResponseMessage Options()

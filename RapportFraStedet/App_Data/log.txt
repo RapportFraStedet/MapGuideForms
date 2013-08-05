@@ -44,3 +44,15 @@ The given path's format is not supported.
    at System.Drawing.IntSecurity.DemandWriteFileIO(String fileName)
    at System.Drawing.Image.Save(String filename, ImageCodecInfo encoder, EncoderParameters encoderParams)
    at RapportFraStedet.Controllers.UploadController.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\UploadController.cs:line 52
+05-08-2013 09:19:21
+The SaveAs method is configured to require a rooted path, and the path 'cdv_photo_001.jpg' is not rooted.
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at RapportFraStedet.Controllers.Upload2Controller.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\Upload2Controller.cs:line 28
+05-08-2013 09:23:14
+The SaveAs method is configured to require a rooted path, and the path 'cdv_photo_001.jpg' is not rooted.
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at RapportFraStedet.Controllers.Upload2Controller.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\Upload2Controller.cs:line 28
+05-08-2013 10:12:08
+The SaveAs method is configured to require a rooted path, and the path 'cdv_photo_001.jpg' is not rooted.
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at RapportFraStedet.Controllers.Upload2Controller.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\Upload2Controller.cs:line 28

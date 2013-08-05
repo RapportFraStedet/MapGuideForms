@@ -231,53 +231,56 @@ namespace RapportFraStedet.Models
                         {
                             string[] info = formValues[field.FieldId.ToString()].Split(new char[] { ';' });
                             int index = info[1].IndexOf(",");
-                            string image = info[1].Substring(index + 1);
                             string name = model.UniqueId + "-" + field.FieldId.ToString() + info[0].Replace("data:image/", ".");
                             field.Data = name;
-                            string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
-                            using (var fs = new FileStream(filePath, FileMode.Create))
+                            if (info[1].Length > (index + 1))
                             {
-                                byte[] byteFromString;
-                                byteFromString = Convert.FromBase64String(image);
-                                fs.Write(byteFromString, 0, byteFromString.Length);
-
-                            }
-                            try
-                            {
-                                int width = Properties.Settings.Default.MaxWidth;
-                                int height = Properties.Settings.Default.MaxHeight;
-                                System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(filePath);
-
-                                // Prevent using images internal thumbnail
-                                FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-                                FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
-
-                                if (FullsizeImage.Width <= width)
+                                string image = info[1].Substring(index + 1);
+                                string filePath = Path.Combine(model.Form.UploadPhysicalPath, name);
+                                using (var fs = new FileStream(filePath, FileMode.Create))
                                 {
-                                    width = FullsizeImage.Width;
+                                    byte[] byteFromString;
+                                    byteFromString = Convert.FromBase64String(image);
+                                    fs.Write(byteFromString, 0, byteFromString.Length);
+
                                 }
-
-
-                                int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
-                                if (NewHeight > height)
+                                try
                                 {
-                                    // Resize with height instead
-                                    width = FullsizeImage.Width * height / FullsizeImage.Height;
-                                    NewHeight = height;
+                                    int width = Properties.Settings.Default.MaxWidth;
+                                    int height = Properties.Settings.Default.MaxHeight;
+                                    System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(filePath);
+
+                                    // Prevent using images internal thumbnail
+                                    FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+                                    FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+
+                                    if (FullsizeImage.Width <= width)
+                                    {
+                                        width = FullsizeImage.Width;
+                                    }
+
+
+                                    int NewHeight = FullsizeImage.Height * width / FullsizeImage.Width;
+                                    if (NewHeight > height)
+                                    {
+                                        // Resize with height instead
+                                        width = FullsizeImage.Width * height / FullsizeImage.Height;
+                                        NewHeight = height;
+                                    }
+
+                                    System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
+
+                                    // Clear handle to original file so that we can overwrite it if necessary
+                                    FullsizeImage.Dispose();
+                                    string newName = "Thumb_" + Path.GetFileName(name);
+                                    string newFile = Path.Combine(model.Form.UploadPhysicalPath, newName);
+                                    // Save resized picture
+                                    NewImage.Save(newFile);
+                                    NewImage.Dispose();
                                 }
-
-                                System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(width, NewHeight, null, IntPtr.Zero);
-
-                                // Clear handle to original file so that we can overwrite it if necessary
-                                FullsizeImage.Dispose();
-                                string newName = "Thumb_" + Path.GetFileName(name);
-                                string newFile = Path.Combine(model.Form.UploadPhysicalPath, newName);
-                                // Save resized picture
-                                NewImage.Save(newFile);
-                                NewImage.Dispose();
+                                catch
+                                { }
                             }
-                            catch
-                            { }
                         }
                     }
                     #endregion

@@ -24,3 +24,23 @@ Parameter name: input
    at System.Text.RegularExpressions.Regex.IsMatch(String input)
    at RapportFraStedet.Models.RepositorySaveData.CreateModel(NameValueCollection formValues, Object files, Operation operation) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Models\RepositorySaveData.cs:line 304
    at RapportFraStedet.Controllers.SaveFormsDataController.<>c__DisplayClass1.<PostFormData>b__0(Task`1 data) in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\SaveFormsDataController.cs:line 65
+12-07-2013 15:08:38
+The given path's format is not supported.
+   at System.Security.Util.StringExpressionSet.CanonicalizePath(String path, Boolean needFullPath)
+   at System.Security.Util.StringExpressionSet.CreateListFromExpressions(String[] str, Boolean needFullPath)
+   at System.Security.Permissions.FileIOPermission.AddPathList(FileIOPermissionAccess access, AccessControlActions control, String[] pathListOrig, Boolean checkForDuplicates, Boolean needFullPath, Boolean copyPathList)
+   at System.IO.Path.GetFullPath(String path)
+   at System.Drawing.IntSecurity.UnsafeGetFullPath(String fileName)
+   at System.Drawing.IntSecurity.DemandWriteFileIO(String fileName)
+   at System.Drawing.Image.Save(String filename, ImageCodecInfo encoder, EncoderParameters encoderParams)
+   at RapportFraStedet.Controllers.UploadController.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\UploadController.cs:line 52
+12-07-2013 15:10:04
+The given path's format is not supported.
+   at System.Security.Util.StringExpressionSet.CanonicalizePath(String path, Boolean needFullPath)
+   at System.Security.Util.StringExpressionSet.CreateListFromExpressions(String[] str, Boolean needFullPath)
+   at System.Security.Permissions.FileIOPermission.AddPathList(FileIOPermissionAccess access, AccessControlActions control, String[] pathListOrig, Boolean checkForDuplicates, Boolean needFullPath, Boolean copyPathList)
+   at System.IO.Path.GetFullPath(String path)
+   at System.Drawing.IntSecurity.UnsafeGetFullPath(String fileName)
+   at System.Drawing.IntSecurity.DemandWriteFileIO(String fileName)
+   at System.Drawing.Image.Save(String filename, ImageCodecInfo encoder, EncoderParameters encoderParams)
+   at RapportFraStedet.Controllers.UploadController.UploadImage() in c:\Users\rtv.HVENEGAARD\Documents\GitHub\MapGuideForms\RapportFraStedet\Controllers\UploadController.cs:line 52

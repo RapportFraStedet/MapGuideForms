@@ -74,7 +74,16 @@ namespace RapportFraStedet.Controllers
                     model = repositoryMapGuide.Add(model);
                     dataCreateModel.Model = model;
                     repositoryMapGuide.SendEmails(dataCreateModel);
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    HttpResponseMessage res = Request.CreateResponse(HttpStatusCode.OK,model.Form.UploadPhysicalPath+"\\"+model.UniqueId);
+                    res.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html");
+                    //System.Net.Http.Headers.MediaTypeWithQualityHeaderValue json = new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json");
+                    //System.Net.Http.Headers.MediaTypeWithQualityHeaderValue plain = new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/plain");
+                    //if (!Request.Headers.Accept.Contains(json))
+                    //{
+                        //res.Content.Headers.ContentType = plain;
+                    //}
+                    return res;
+                    //return Request.CreateResponse((HttpStatusCode.OK);
                 }
                 catch (System.Exception e)
                 {

@@ -36,13 +36,32 @@ namespace RapportFraStedet.Controllers
         //public async Task<HttpResponseMessage> PostFormData()
         public Task<HttpResponseMessage> PostFormData()
         {
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            StreamWriter log1;
+            string file1 = Path.Combine(@"d:\inetpub\wwwroot\rapportfrastedet\app_data\", "log1.txt");
+            if (!File.Exists(file1))
+            {
+                log1 = new StreamWriter(file1);
+            }
+            else
+            {
+                log1 = File.AppendText(file1);
+            }
+
+            // Write to the file:
+            log1.WriteLine(DateTime.Now);
+            log1.WriteLine(root);
+
+            // Close the stream:
+            log1.Close();
+
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            
             var provider = new MultipartFormDataStreamProvider(root);
 
             /**/

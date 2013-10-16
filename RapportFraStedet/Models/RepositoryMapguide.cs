@@ -331,7 +331,16 @@ namespace RapportFraStedet.Models
                                     {
                                         if (field.FieldColumn.ToUpper() == propertyNameUpper)
                                         {
-                                            field.Data = row[i].ToString();
+
+                                            if (field.FieldTypeId == 10)
+                                            {
+                                                DateTime dt1 = (DateTime)row[i];
+                                                field.Data = dt1.ToString("dd-MM-yyy");
+                                            }
+                                            else
+                                            {
+                                                field.Data = row[i].ToString();
+                                            }
                                         }
                                     }
                                 }

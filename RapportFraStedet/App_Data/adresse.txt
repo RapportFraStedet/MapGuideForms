@@ -2,3 +2,59 @@
 select vejk, vejnavn from vejk where vejnavn like '%'
 13-08-2013 12:32:31
 select vejkode, husnr from adr where vejkode=38 and husnr like '%'
+07-11-2013 10:18:52
+select vejk, vejnavn from vejk where vejnavn like '%'
+07-11-2013 10:19:08
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 10:19:14
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:19:29
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 10:19:33
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:19:38
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:23:03
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:40:19
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:46:30
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:50:30
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:54:39
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 10:57:41
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:00:09
+select vejk, vejnavn from vejk where vejnavn like 'g�B8%'
+07-11-2013 11:00:54
+select vejk, vejnavn from vejk where vejnavn like 'g�B8%'
+07-11-2013 11:03:04
+select vejk, vejnavn from vejk where vejnavn like 'g�B8%'
+07-11-2013 11:03:11
+select vejk, vejnavn from vejk where vejnavn like 'gø%'
+07-11-2013 11:06:33
+select vejk, vejnavn from vejk where vejnavn like '%'
+07-11-2013 11:06:36
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 11:06:39
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:06:46
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:07:00
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:07:11
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:07:38
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 11:07:40
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 11:12:26
+select vejk, vejnavn from vejk where vejnavn like 'g�%'
+07-11-2013 11:12:36
+select vejk, vejnavn from vejk where vejnavn like '%'
+07-11-2013 11:12:42
+select vejk, vejnavn from vejk where vejnavn like 'g%'
+07-11-2013 11:12:56
+select vejk, vejnavn from vejk where vejnavn like 'gø%'

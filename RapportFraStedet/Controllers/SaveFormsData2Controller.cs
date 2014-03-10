@@ -37,7 +37,7 @@ namespace RapportFraStedet.Controllers
         public Task<HttpResponseMessage> PostFormData()
         {
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
-            StreamWriter log1;
+            /*StreamWriter log1;
             string file1 = Path.Combine(@"d:\inetpub\wwwroot\rapportfrastedet\app_data\", "log1.txt");
             if (!File.Exists(file1))
             {
@@ -54,7 +54,7 @@ namespace RapportFraStedet.Controllers
 
             // Close the stream:
             log1.Close();
-
+            */
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
